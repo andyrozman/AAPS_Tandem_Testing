@@ -1,0 +1,228 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.jwoglom.pumpx2",
+    "module": "pumpx2-android",
+    "version": "1.1.2",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.4.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseVariantReleaseApiPublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "com.jwoglom.pumpx2",
+          "module": "pumpx2-messages",
+          "version": {
+            "requires": "1.1.2"
+          }
+        },
+        {
+          "group": "org.apache.commons",
+          "module": "commons-math3",
+          "version": {
+            "requires": "3.6.1"
+          }
+        },
+        {
+          "group": "androidx.databinding",
+          "module": "viewbinding",
+          "version": {
+            "requires": "7.1.3"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "pumpx2-android-1.1.2.aar",
+          "url": "pumpx2-android-1.1.2.aar",
+          "size": 20586,
+          "sha512": "e915f6f826fb4b545179c7061599ce2ed4079407dc08f51c5cd22ac1656d8ea422ca2916a05d7ef145f9ebe6359c7c37e346d6d3886371589bf69fa7c1891f8c",
+          "sha256": "cda77467eb16767d0cd0aa2d728022ae0f68fd64ec4ad01b062a552caef67e3d",
+          "sha1": "5409da3898dfab4d1e5c01e840dcff9846b95558",
+          "md5": "d2ae8c70954b3dc532f966595ffa3d21"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseRuntimePublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "com.jwoglom.pumpx2",
+          "module": "pumpx2-shared",
+          "version": {
+            "requires": "1.1.2"
+          }
+        },
+        {
+          "group": "com.jwoglom.pumpx2",
+          "module": "pumpx2-messages",
+          "version": {
+            "requires": "1.1.2"
+          }
+        },
+        {
+          "group": "androidx.appcompat",
+          "module": "appcompat",
+          "version": {
+            "requires": "1.3.0"
+          }
+        },
+        {
+          "group": "com.google.android.material",
+          "module": "material",
+          "version": {
+            "requires": "1.4.0"
+          }
+        },
+        {
+          "group": "androidx.constraintlayout",
+          "module": "constraintlayout",
+          "version": {
+            "requires": "2.0.4"
+          }
+        },
+        {
+          "group": "androidx.navigation",
+          "module": "navigation-fragment",
+          "version": {
+            "requires": "2.3.5"
+          }
+        },
+        {
+          "group": "androidx.navigation",
+          "module": "navigation-ui",
+          "version": {
+            "requires": "2.3.5"
+          }
+        },
+        {
+          "group": "com.github.weliem",
+          "module": "blessed-android",
+          "version": {
+            "requires": "2.2.0"
+          }
+        },
+        {
+          "group": "com.jakewharton.timber",
+          "module": "timber",
+          "version": {
+            "requires": "5.0.1"
+          }
+        },
+        {
+          "group": "me.champeau.openbeans",
+          "module": "openbeans",
+          "version": {
+            "requires": "1.0.2"
+          }
+        },
+        {
+          "group": "commons-codec",
+          "module": "commons-codec",
+          "version": {
+            "requires": "1.15"
+          }
+        },
+        {
+          "group": "org.apache.commons",
+          "module": "commons-lang3",
+          "version": {
+            "requires": "3.12.0"
+          }
+        },
+        {
+          "group": "com.google.guava",
+          "module": "guava",
+          "version": {
+            "requires": "31.0.1-android"
+          }
+        },
+        {
+          "group": "org.apache.commons",
+          "module": "commons-math3",
+          "version": {
+            "requires": "3.6.1"
+          }
+        },
+        {
+          "group": "androidx.databinding",
+          "module": "viewbinding",
+          "version": {
+            "requires": "7.1.3"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "pumpx2-android-1.1.2.aar",
+          "url": "pumpx2-android-1.1.2.aar",
+          "size": 20586,
+          "sha512": "e915f6f826fb4b545179c7061599ce2ed4079407dc08f51c5cd22ac1656d8ea422ca2916a05d7ef145f9ebe6359c7c37e346d6d3886371589bf69fa7c1891f8c",
+          "sha256": "cda77467eb16767d0cd0aa2d728022ae0f68fd64ec4ad01b062a552caef67e3d",
+          "sha1": "5409da3898dfab4d1e5c01e840dcff9846b95558",
+          "md5": "d2ae8c70954b3dc532f966595ffa3d21"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseSourcePublication",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "pumpx2-android-1.1.2-sources.jar",
+          "url": "pumpx2-android-1.1.2-sources.jar",
+          "size": 10963,
+          "sha512": "0e82de3542926f7faef7c5d0d5ef234723ca8ebb88d9ffaf9b0abd2f4f96cdcb61107d466fd8fb35057ecc7f49a5f800018a5f0bdb7eca5eb68b62f190a8658f",
+          "sha256": "99edc959c953f0844ba5d621b21351ac1e206b865eb06f760c20e3214e9b900a",
+          "sha1": "8688b04583342ae1a310faf967d3eda5e9496bc8",
+          "md5": "1e6d9803102e491f3b5ab2b9f442f8bd"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseJavaDocPublication",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "pumpx2-android-1.1.2-javadoc.jar",
+          "url": "pumpx2-android-1.1.2-javadoc.jar",
+          "size": 319271,
+          "sha512": "f979d759ff61435527d7880dc73dc5fa060ffe9c33e0b71d2352728da826f91acb1253d406fe9c96ccb5225986bf0468f7a06f2f204c2fcdf22ef7fbd514997a",
+          "sha256": "22a9636186d1ccd7f6d357405caa8e3c213f6ebe294150fd3a5f2265ed86e1df",
+          "sha1": "9af907586a6361172e88957acf0d554aab2a0bd3",
+          "md5": "61732853f2c0beb30d08091eb9475981"
+        }
+      ]
+    }
+  ]
+}

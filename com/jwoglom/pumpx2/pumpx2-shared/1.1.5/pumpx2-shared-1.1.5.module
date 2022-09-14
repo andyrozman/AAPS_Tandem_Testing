@@ -1,0 +1,90 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.jwoglom.pumpx2",
+    "module": "pumpx2-shared",
+    "version": "1.1.5",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.4.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "pumpx2-shared-1.1.5.jar",
+          "url": "pumpx2-shared-1.1.5.jar",
+          "size": 7843,
+          "sha512": "b405946eb5bfeb59f533f7c87bfbaa6d8c255a30e4dc87c0e09698ab1cf53faba64072b89389ba3a28f518ff2b89d19e3cd523537c3bed7d20acde9c88e0d685",
+          "sha256": "bfca3e648e18522e5656a68fd48c74b1a8927c66aa86bf783331559228682179",
+          "sha1": "ee7016592e244d1eefe670e3c862d4c7a468ae59",
+          "md5": "18f32611ce313ae3b59e53a1f58089ba"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "me.champeau.openbeans",
+          "module": "openbeans",
+          "version": {
+            "requires": "1.0.2"
+          }
+        },
+        {
+          "group": "commons-codec",
+          "module": "commons-codec",
+          "version": {
+            "requires": "1.15"
+          }
+        },
+        {
+          "group": "org.apache.commons",
+          "module": "commons-lang3",
+          "version": {
+            "requires": "3.12.0"
+          }
+        },
+        {
+          "group": "com.google.guava",
+          "module": "guava",
+          "version": {
+            "requires": "31.0.1-android"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "pumpx2-shared-1.1.5.jar",
+          "url": "pumpx2-shared-1.1.5.jar",
+          "size": 7843,
+          "sha512": "b405946eb5bfeb59f533f7c87bfbaa6d8c255a30e4dc87c0e09698ab1cf53faba64072b89389ba3a28f518ff2b89d19e3cd523537c3bed7d20acde9c88e0d685",
+          "sha256": "bfca3e648e18522e5656a68fd48c74b1a8927c66aa86bf783331559228682179",
+          "sha1": "ee7016592e244d1eefe670e3c862d4c7a468ae59",
+          "md5": "18f32611ce313ae3b59e53a1f58089ba"
+        }
+      ]
+    }
+  ]
+}

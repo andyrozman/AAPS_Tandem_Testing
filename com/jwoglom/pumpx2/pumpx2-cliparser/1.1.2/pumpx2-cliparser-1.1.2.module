@@ -1,0 +1,117 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.jwoglom.pumpx2",
+    "module": "pumpx2-cliparser",
+    "version": "1.1.2",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.4.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 11,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "pumpx2-cliparser-1.1.2.jar",
+          "url": "pumpx2-cliparser-1.1.2.jar",
+          "size": 7591,
+          "sha512": "26c54c2fff8fcf104c083780a1496f980cfb9475bf880fd98b7f14d24f36dce031bfa7a4d5f69828461aa20fabf0a2335e215749eca113c210aedbb97fc3d8b2",
+          "sha256": "9c97e3271425b88cf97c4a52a9210e4ba22f0d71513f0c6d5ea0cf8d8370f487",
+          "sha1": "fa4e68dac645b046957b8a3cf65828240c6544a5",
+          "md5": "18ec5d1f3b4d1b261c62d218868e054d"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 11,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "com.jwoglom.pumpx2",
+          "module": "pumpx2-shared",
+          "version": {
+            "requires": "1.1.2"
+          }
+        },
+        {
+          "group": "com.jwoglom.pumpx2",
+          "module": "pumpx2-messages",
+          "version": {
+            "requires": "1.1.2"
+          }
+        },
+        {
+          "group": "commons-codec",
+          "module": "commons-codec",
+          "version": {
+            "requires": "1.15"
+          }
+        },
+        {
+          "group": "org.apache.commons",
+          "module": "commons-lang3",
+          "version": {
+            "requires": "3.12.0"
+          }
+        },
+        {
+          "group": "com.google.guava",
+          "module": "guava",
+          "version": {
+            "requires": "31.0.1-android"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "pumpx2-cliparser-1.1.2.jar",
+          "url": "pumpx2-cliparser-1.1.2.jar",
+          "size": 7591,
+          "sha512": "26c54c2fff8fcf104c083780a1496f980cfb9475bf880fd98b7f14d24f36dce031bfa7a4d5f69828461aa20fabf0a2335e215749eca113c210aedbb97fc3d8b2",
+          "sha256": "9c97e3271425b88cf97c4a52a9210e4ba22f0d71513f0c6d5ea0cf8d8370f487",
+          "sha1": "fa4e68dac645b046957b8a3cf65828240c6544a5",
+          "md5": "18ec5d1f3b4d1b261c62d218868e054d"
+        }
+      ]
+    },
+    {
+      "name": "shadowRuntimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "shadowed",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "pumpx2-cliparser-1.1.2-all.jar",
+          "url": "pumpx2-cliparser-1.1.2-all.jar",
+          "size": 6534896,
+          "sha512": "3196d66ceb093110d5022ead7a6087f3376904a7aea005e1fce65ad410ec22ba7e5ae8c5f4f4176c4d6355dfe9b76283612942229e0bd913a21bdb2458c4387e",
+          "sha256": "a4cea1f2072596994b25e52e1bebc889c33584ce00d686971c54ed55fde1584a",
+          "sha1": "62e2a3c2f016504f49fe2cb7be5438884d823520",
+          "md5": "6205d9ea77bf422a9b046dc02c05996c"
+        }
+      ]
+    }
+  ]
+}

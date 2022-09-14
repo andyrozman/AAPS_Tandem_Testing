@@ -1,0 +1,164 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.jwoglom.pumpx2",
+    "module": "pumpx2-messages",
+    "version": "1.1.2",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.4.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "pumpx2-messages-1.1.2.jar",
+          "url": "pumpx2-messages-1.1.2.jar",
+          "size": 249169,
+          "sha512": "30d6e55d8ce4608339a067f284dc2cf6d42c9da21b96c5a5cc8ca0992269df53cb2044a2c39075e9396f0cb9d9c837fc36fad6f421fea9e590227fe4a5c04049",
+          "sha256": "aa28ed9bab4689ac0d6d87a5461d9ac336bcd90957639b2680733d100d9e31df",
+          "sha1": "2f1366849160d57fe2506782b3a6b265f8af382e",
+          "md5": "b5b0afaf1f9e6478a31c736815a0ac24"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 8,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "com.jwoglom.pumpx2",
+          "module": "pumpx2-shared",
+          "version": {
+            "requires": "1.1.2"
+          }
+        },
+        {
+          "group": "commons-codec",
+          "module": "commons-codec",
+          "version": {
+            "requires": "1.15"
+          }
+        },
+        {
+          "group": "org.apache.commons",
+          "module": "commons-lang3",
+          "version": {
+            "requires": "3.12.0"
+          }
+        },
+        {
+          "group": "com.google.guava",
+          "module": "guava",
+          "version": {
+            "requires": "31.0.1-android"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.7.10"
+          }
+        },
+        {
+          "group": "junit",
+          "module": "junit",
+          "version": {
+            "requires": "4.12"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "pumpx2-messages-1.1.2.jar",
+          "url": "pumpx2-messages-1.1.2.jar",
+          "size": 249169,
+          "sha512": "30d6e55d8ce4608339a067f284dc2cf6d42c9da21b96c5a5cc8ca0992269df53cb2044a2c39075e9396f0cb9d9c837fc36fad6f421fea9e590227fe4a5c04049",
+          "sha256": "aa28ed9bab4689ac0d6d87a5461d9ac336bcd90957639b2680733d100d9e31df",
+          "sha1": "2f1366849160d57fe2506782b3a6b265f8af382e",
+          "md5": "b5b0afaf1f9e6478a31c736815a0ac24"
+        }
+      ]
+    },
+    {
+      "name": "shadowRuntimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "shadowed",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "pumpx2-messages-1.1.2-all.jar",
+          "url": "pumpx2-messages-1.1.2-all.jar",
+          "size": 6527870,
+          "sha512": "92489eabfa1fa7819bc0bf6b36ccade213810378d4b20e5f182a230226231ced43abd868aeb632161667958b7e8d70c063a73b64eea6fc899611c9e8f64c8c58",
+          "sha256": "e00b7a0154099a0c7e394e53e54f72ef47f8b707c4ce0deeac2dda4191aa03eb",
+          "sha1": "a1f4b4f27c9f8f8a3a3a9df87aef616fa5d7f08e",
+          "md5": "16974bd55ecdd27503086a485cb13f3f"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "pumpx2-messages-1.1.2-sources.jar",
+          "url": "pumpx2-messages-1.1.2-sources.jar",
+          "size": 145663,
+          "sha512": "e7810ab233acef9da10b114f473b2b1e8522f724d36639303d27cb1e9ab74e21e3547ca037e4ed2ccbb6a3304d3e4e53fbad1ed4117b0d1918126b9385689890",
+          "sha256": "a236188de6e407e4afd79c6b9ea54d27371807df899c2c693998eb5a599e3fb7",
+          "sha1": "e85659027d44e2986601479f13b61fa4f3fbb50e",
+          "md5": "bbe1f896e2355d1b9acaf3e097a0582e"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "pumpx2-messages-1.1.2-javadoc.jar",
+          "url": "pumpx2-messages-1.1.2-javadoc.jar",
+          "size": 1142219,
+          "sha512": "6b56e80a8c81e19b0c6a4e2218cc5fa749230aa9292e890e88732fc87953d366289728ea6decde954d965b701702a0be1cc137038ff8ac32aa10810c0b28babe",
+          "sha256": "4fa409195d373e46b716d1d4f8d20f54d54a4dae20a1583eb70a27e431b300bc",
+          "sha1": "52c3dbe542c0a951ef371f20afb3ec54e02c7d5d",
+          "md5": "76434f686bb87004ff5b887be251a81d"
+        }
+      ]
+    }
+  ]
+}
