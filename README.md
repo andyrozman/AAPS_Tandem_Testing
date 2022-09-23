@@ -16,6 +16,13 @@ _Important note:_ Tandem X2 supports only Remote Bolus, which means you can't Lo
 2. To get advanced options working, you will need to go through objectives... If you ahev running AAPS somewhere, export settings from there and import them here, but be careful to update (or remove Nightscout URL), or else test data will go to NS from AAPS instance you exported.
 3. If you find error please post it in discord chat first, so that we don't get duplicates or reports of functionalities not yet developed
 
+## How to checkout certain tag
+Names of pumpX2 tags start with letter v, so tag for version 1.1.5 would be v1.1.5, and tags for AAPS Tandem will start with "Tandem_", name of tag will be listed in release notes here, and I will always specify which tag of pumpX2 you will need. Getting pumpX2 tags for each release is just temporary solution, until we get upload to global maven repository fixed. 
+1. To checkout just issue command like this: git checkout tags/v1.1.5 -b v1.1.5-branch
+2. This will put you in newly created branch based on specified tag
+3. Build the code: ./
+
+
 ## Overview
 If you want to see what functionalities are being done, you can switch to Projects tab, and there you can visually see what is being worked on and what is comming down the lane. 
 
