@@ -21,8 +21,10 @@ Names of pumpX2 tags start with letter v, so tag for version 1.1.5 would be v1.1
 1. To checkout just issue command like this: git checkout tags/v1.1.5 -b v1.1.5-branch
 2. This will put you in newly created branch based on specified tag
 3. Build the code: 
-    ./gradlew build
-    ./gradlew publishToMavenLocal
+```
+./gradlew build
+./gradlew publishToMavenLocal
+```
 
 
 ## Overview
