@@ -1,6 +1,14 @@
 # AAPS_Tandem_Testing
 Testing for AAPS Tandem Integration
 
+# THIS FILE IS OUTDATED, please WAIT until its ready
+
+# AAPS - t:mobi integration status
+You can see status in project view: [on https://github.com/andyrozman](https://github.com/users/andyrozman/projects/1/views/1)
+We started on Phase 1.
+
+
+
 _Important note:_ Tandem X2 supports only Remote Bolus, which means you can't Loop with it in Closed Loop mode. If Tandem decides to extend functionalities (with Set TBR command) 
 
 ## Download all neded parts (needs to be done 1st only)
