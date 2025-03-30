@@ -1,0 +1,69 @@
+
+<h1 id="t-mobi-documentation">Tandem t:mobi (documentation)</h1>
+<p>NOTE: This is preliminary documentation which will grow as driver is being developed. For now it is intended for testers so that they can setup the driver correctly. Installation instruction for AAPS and controlX2 are in README</p>
+<b>Version:</b>&nbsp;&nbsp; 0.4.x - 0.5.0 (Phase 1)<br>
+<b>Last updated:</b>&nbsp;&nbsp;24.3.2025<br>
+
+<br>
+<br>
+
+<h2 id="connection-setup">Connection setup</h2>
+<h3 id="a-using-shared-connection-with-controlx2-in-phase-1-this-is-the-only-way-">A.) Using shared connection with controlX2 (in Phase 1 this is the only way)</h3>
+<p>While we can share &quot;connection&quot; with controlX2, this doesn&#39;t mean that both apps can run at same time. If you wish to use controlX2, then you need to &quot;Force close&quot; AAPS and then you can start controlX2 (and vice-versa). If you want to use shared connection, you need to get latest controlX2 version (at least version 1.0.0-20250304). Then you need to install it and pair your t:mobi pump with it. After you paired your pump with controlX2, you need to go into Settings -&gt; Debug -&gt; View Pump State. There will be json with all connection data, use option &quot;Save to Clipboard&quot;. Force close the app and then start AAPS.
+In AAPS select t:mobi driver and go to configuration. Enable &quot;Use Shared Connection&quot;, click on &quot;Shared Connection Data&quot; copy the value you got from controlX2 and exit configuration. AAPS should now be able to connect to your pump. If for some reason doesn&#39;t work, &quot;Force Close&quot; AAPS and restart. Driver should be able to connect to pump now.</p>
+<h3 id="b-using-only-aaps">B.) Using only AAPS</h3>
+<p>This will be added in Phase 2, when all needed methods are implemented and UI options are available.</p>
+
+
+<br><br>
+
+<h2 id="configuration-options">Configuration options</h2>
+
+<table>
+<tr>
+	<td><img src="./pics/mobi_driver_prefs_v1.jpg" height="480" width="216" alt="Overview"></td>
+	<td>Configuration options description... COMING SOON.</td>
+
+
+</tr>
+
+
+</table>
+
+
+<br>
+<br>
+
+
+<h2 id="starting-stopping-pump-cartridge-cannula-actions-solution-with-controlx2-only-possible-option-at-the-moment-">Starting / Stopping pump / Cartridge - Cannula Actions (solution with controlX2 - only possible option at the moment)</h2>
+<p>If you need to change cartridge (empty or almost empty), you need to &quot;Force Close&quot; AAPS and start controlX2. There you go into &quot;Actions&quot; and Stop the pump (if its not already stopped), then you do &quot;Cartridge Change&quot; (follow instructions), after you are done, you need to do &quot;Fill Cannula&quot; action and when its done, you need to restart the pump. When you are finished &quot;Force Stop&quot; controlX2 and restart AAPS.</p>
+
+<br>
+<br>
+
+<h2 id="overview">Overview in T:MOBI tab</h2>
+
+<table>
+<tr>
+	<td><img src="./pics/mobi_driver_overview_v1.jpg" height="480" width="216" alt="Overview"></td>
+	<td><blockquote><blockquote>Once you have Mobi configured, tab T:MOBI becomes available, displaying all important information. Information is divided in 6 different sections.<br><br>
+	<b>Section 1:</b> Shows information about your pump: Firmware, Serial Number and BT address. If you have configured display of driver version, then version of driver will also be displayed (while doing testing please have this turned on at all times, so that when you report something you can tell me in which version of driver it happened, this will help find problems faster and also see if the problem was fixed in meantime). <br><br>
+	Section 2: 2nd are shows state of pump connection, this shows Connected if pump is connected, or if command is running it will show name of command running and also the Queue of commands (queue hides when empty). <br><br>
+	
+	3rd area is showing battery statys, reservoir and when last commands were processed. <br><br>
+	
+	4th section, shows last bolus, base basal rate and if temp basal is currently running. <br><br>
+	
+	5th section shows if there are any driver errors (mostly this would be filled if there is problem with configuration or if for some reason we lost connection with the pump). <br><br>
+	
+	Last sections shows Pump Events (when something major happens on pump, pump sends so called Qualyfing Events, here the list of events will be shown (on next event old list will be cleaned). This functionality will be extended in Phase 3, to show only indicator that events were received, and events will be visible in another view.</blockquote></blockquote>
+	
+	</td>
+</tr>
+
+
+</table>
+
+
+
+
