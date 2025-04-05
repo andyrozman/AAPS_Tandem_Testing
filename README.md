@@ -2,32 +2,61 @@
 Testing for AAPS Tandem t:mobi Integration
 
 # AAPS - t:mobi integration status
-You can see status in project view: [on https://github.com/andyrozman](https://github.com/users/andyrozman/projects/1/views/1)
-We started on Phase 1 on 17th February.
+You can see status in project view: [on https://github.com/users/andyrozman/projects/1/views/1](https://github.com/users/andyrozman/projects/1/views/1)
+We started on Phase 1 on 17th February and it was completed on 4th April 2025.
 
 
-## Download all neded parts (needs to be done 1st time only)
-1. Download Tandem branch from Andy's Android APS repository: https://github.com/andyrozman/AndroidAPS, branch andy_tandem, and build it
+## Prerequisites (one time actions)
 
-## Update all needed parts (needs to be done afterwards when versions change)
-1. Update local AndroidAPS repo to specific tag (or to branch, depending on what is being tested
+1. controlX2
+    - Download controlX2 (minimal version v1.0.0-20250304), use this link this will download correct apk (https://github.com/jwoglom/controlX2/releases/download/v1.0.0-20250304/mobile-release.apk)
+    - Install the app and pair it with your pump (to pair your pump you need to put it on the charging pad then fastly click button 2 times, this switches pump into pairing mode). 
+
+2. Download Tandem branch from Andy's Android APS repository: https://github.com/andyrozman/AndroidAPS, branch andy_tandem, and build it
+
+```
+git clone https://github.com/andyrozman/AndroidAPS.git
+cd AndroidAPS
+git checkout andy_tandem
+
+```
+
+
 
 ## Prepare Android APS (needs to be done once)
 1. Go into Maintainance option (click on button in left upper corner, this should give you some options) and select Log Settings and then inside select first 3 pump options: Pump, PumpBtComm and PumpComm (you can deselect most of other ones, especially if you see a lot of logs from them). 
 2. To get advanced options working, you will need to go through objectives... If you ahev running AAPS somewhere, export settings from there and import them here, but be careful to update (or remove Nightscout URL), or else test data will go to NS from AAPS instance you exported.
 3. If you find error please post it in discord chat first, so that we don't get duplicates or reports of functionalities not yet developed
 
+
 ## Testing Mode
-You can test either from tag (when provided) or from branch.
+You can test either from tag (when provided) or from branch directly.
+
+### Testing from branch
+If you feel adventerous you can try to test from andy_tandem branch directly. Problem with testing from branch is that things are changed a lot, so it can happen that you get code, that has not been fully implemented and/or tested, which could break your AAPS... If you find problem here you can mention it in chat, but don't open issue for it...
+
 
 ### Testing from tag
 After certaing phase or functionality in phase is done, tag will be created which can be then be tested. When tag is created, functionalities are *supposed* to be ready. When testing in tag, if you find any problem report it first in chat (discord), if we decide that it is an error, then open issue here.
 
-### Testing from branch
-If you feel adventerous you can try to test from andy_tandem branch directly. Problem with testing from branch is that things are changed a lot, so it can happen that you get code, that has not been fully implemented, which could break your AAPS... If you find problem here you can mention it in chat, but don't open issue for it...
+#### How to get a tag
+Once you are in previously checked out repository (see prerequisite 2)
+
+```
+# Create branch from a tag
+git checkout tags/<tag_name> -b <branch_name>
+
+# So our command would be something like this
+git checkout tags/tandem_0.4.26 -b tag_tandem_0.4.26
+
+```
+
+You can use any name for branch, just the tag name must be same as the one specified (see Release notes for tags with list of all available tags)
+
+
 
 ## How to test
-Yo just need to install the AAPS and start testing. If you see that something is crashing, you can connect your phone to computer and go into Android Studio and look at Logcat window, there you would see all the active logs (there will be a lot of them, you can filter it with using 
+Yo just need to install the AAPS and start testing. If you see that something is crashing, you can connect your phone to computer and go into Android Studio and look at Logcat window, there you would see all the active logs (there will be a lot of them, you can filter it with using "package:mine level:info" (if you need more info you can leave level out of search string)
 
 ## Overview of Phases
 
@@ -49,13 +78,10 @@ If you want to see detailed view of what functionalities are being done, you can
 
 ## Release Notes for tags:
 
-No tags so far.
+tandem_0.4.26 - release for Phase 1 (completed)
 
 
-## Special note for Phase_1
-
-Pairing in Phase 1 is done without UI, so for this to work you need to get your PIN (if you remove reservoir, its lower number, 6 characters). Then you have to go to classes and find TandemPumpConfig and put your PIN there (this will be removed in Phase_2, when we have UI for pairing).
 
 ## History
 0.1.x - 0.3.x - Framework for new driver - refactor what was being prepared for t:slim and split into 2 implementations
-0.4.x - This is current version on the branch
+0.4.x - This is current version on the branch (Phase 1 implementation)
