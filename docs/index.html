@@ -1,8 +1,8 @@
 
 <h1 id="t-mobi-documentation">Tandem t:mobi (documentation)</h1>
 <p>NOTE: This is preliminary documentation which will grow as driver is being developed. For now it is intended for testers so that they can setup the driver correctly. Installation instruction for AAPS and controlX2 are in README</p>
-<b>Version:</b>&nbsp;&nbsp; 0.4.x - 0.5.0 (Phase 1)<br>
-<b>Last updated:</b>&nbsp;&nbsp;24.3.2025<br>
+<b>Version:</b>&nbsp;&nbsp; 0.4.x (Phase 1)<br>
+<b>Last updated:</b>&nbsp;&nbsp;4.4.2025<br>
 
 <br>
 <br>
@@ -14,6 +14,8 @@ In AAPS select t:mobi driver and go to configuration. Enable &quot;Use Shared Co
 <h3 id="b-using-only-aaps">B.) Using only AAPS</h3>
 <p>This will be added in Phase 2, when all needed methods are implemented and UI options are available.</p>
 
+<b>Note: </b>For testing having both applications is requirement, so you have to go with option A. But even in the future having additional application that can help you troubleshoot problem with the pump, is probably something you should consider (controlX2 has a lot of debugging options available that are not present in AAPS (and shouldn't be present there)). So recomendation is that you have both apps installed and always use "Shared connection" in AAPS. 
+
 
 <br><br>
 
@@ -22,7 +24,21 @@ In AAPS select t:mobi driver and go to configuration. Enable &quot;Use Shared Co
 <table>
 <tr>
 	<td><img src="./pics/mobi_driver_prefs_v1.jpg" height="480" width="216" alt="Overview"></td>
-	<td>Configuration options description... COMING SOON.</td>
+	<td> 
+		<blockquote><blockquote>
+		
+		<b>Serial Number: </b>&nbsp; After pump is paired and connected sucessfuly, this field will be populated with Serial Number.<br><br>
+		<b>Use Shared connection: </b> See previous section (<i>Connection setup</i>) how this works. But in short we can either use shared connection for which we also need to populate <b>Shared connection data</b>, or we can use just AAPS connection, for which we need to click
+		on <b>Tandem Configuration</b> which will lead us through pairing process (<b><i>Will be available in Phase 2</i></b>).<br><br>
+		 
+		<b>Max Bolus on Pump:</b>&nbsp;&nbsp;This sets what is max amount of bolus allowed. This is not limited to the current hour, its just max amount you can use at any time, value should be beween 1 and 25 (if you need bigger dose, you can just dose twice).<br><br>
+		
+		<b>Max Basal on Pump:</b>&nbsp;&nbsp;This sets max amount of basal insulin person can receive in a hour. Valid values are 1 to 15. You can go with max value here, but if you want to limit this the formula is to look at your highest hourly value and then multiply it 2.5 (250% is max TBR possible).<br><br>
+		
+		<b>Display driver version:</b>&nbsp;&nbsp;Display driver version on t:MOBI tab (in Section 1, 4th line if enabled - see Overview for more info)
+		
+		</blockquote></blockquote>		
+	</td>
 
 
 </tr>
@@ -36,9 +52,24 @@ In AAPS select t:mobi driver and go to configuration. Enable &quot;Use Shared Co
 
 
 <h2 id="starting-stopping-pump-cartridge-cannula-actions-solution-with-controlx2-only-possible-option-at-the-moment-">Starting / Stopping pump / Cartridge - Cannula Actions (solution with controlX2 - only possible option at the moment)</h2>
-<p>If you need to change cartridge (empty or almost empty), you need to &quot;Force Close&quot; AAPS and start controlX2. There you go into &quot;Actions&quot; and Stop the pump (if its not already stopped), then you do &quot;Cartridge Change&quot; (follow instructions), after you are done, you need to do &quot;Fill Cannula&quot; action and when its done, you need to restart the pump. When you are finished &quot;Force Stop&quot; controlX2 and restart AAPS.</p>
+<p>If you need to change cartridge (empty or almost empty), you need to &quot;Force Close&quot; AAPS and start controlX2. There you go into &quot;Actions&quot; and Stop the pump (if its not already stopped), then you do &quot;Cartridge Change&quot; (follow instructions), after you are done, you need to do &quot;Fill Cannula&quot; action and when its done, you need to restart the pump. When you are finished &quot;Force Stop&quot; controlX2 and restart AAPS.</p><br>
+
+
+<b>NOTE: </b> Force close of application that is connected to your pump works about 80-90% of time. If something doesn't work when you start application (BT error), you have two options
+<ol>
+	<li>Close application (Force close). Disable BT, wait 10s, reenable BT and restart AAPS (this works most of the time)</li>
+	<li>Restart the phone</li>
+</ol>
+
+<b>NOTE 2: </b> 
+Sometimes stoping pump is not enough. If you see that TBR is still running you need to stop TBR (option is visible only if TBR is running).<br><br>
+
+<b>NOTE 3: </b> 
+Durring this operations you might get popup window that there was Unknown Mobi 20 error... You can just close that and continue as if nothing happens. <br>
+
 
 <br>
+<hr>
 <br>
 
 <h2 id="overview">Overview in T:MOBI tab</h2>
@@ -47,16 +78,20 @@ In AAPS select t:mobi driver and go to configuration. Enable &quot;Use Shared Co
 <tr>
 	<td><img src="./pics/mobi_driver_overview_v1.jpg" height="480" width="216" alt="Overview"></td>
 	<td><blockquote><blockquote>Once you have Mobi configured, tab T:MOBI becomes available, displaying all important information. Information is divided in 6 different sections.<br><br>
-	<b>Section 1:</b> Shows information about your pump: Firmware, Serial Number and BT address. If you have configured display of driver version, then version of driver will also be displayed (while doing testing please have this turned on at all times, so that when you report something you can tell me in which version of driver it happened, this will help find problems faster and also see if the problem was fixed in meantime). <br><br>
-	Section 2: 2nd are shows state of pump connection, this shows Connected if pump is connected, or if command is running it will show name of command running and also the Queue of commands (queue hides when empty). <br><br>
 	
-	3rd area is showing battery statys, reservoir and when last commands were processed. <br><br>
+	<b>Section 1:</b> Information about your pump: Firmware, Serial Number and BT address. If you have configured display of driver version, then version of driver will also be displayed (while doing testing please have this turned on at all times, so that when you report something you can tell me in which version of driver it happened, this will help find problems faster and also see if the problem was fixed in meantime). <br><br>
 	
-	4th section, shows last bolus, base basal rate and if temp basal is currently running. <br><br>
+	<b>Section 2:</b> : Displays State of pump connection, this shows Connected if pump is connected, or if command is running it will show name of command running and also the Queue of commands (queue hides when empty). <br><br>
 	
-	5th section shows if there are any driver errors (mostly this would be filled if there is problem with configuration or if for some reason we lost connection with the pump). <br><br>
+	<b>Section 3:</b> Battery status, reservoir level and when last command was processed. <br><br>
 	
-	Last sections shows Pump Events (when something major happens on pump, pump sends so called Qualyfing Events, here the list of events will be shown (on next event old list will be cleaned). This functionality will be extended in Phase 3, to show only indicator that events were received, and events will be visible in another view.</blockquote></blockquote>
+	<b>Section 4:</b> Displays last bolus (Not available in phase 1), base basal rate and if temp basal is currently running (and with what values). <br><br>
+	
+	<b>Section 5:</b> Displays driver errors (mostly this would be filled if there is problem with configuration or if for some reason we lost connection with the pump. At the moment driver is unable to reconnect automatically with pump. If you loose connection with pump please restart AAPS (with Force Stop)). If there are no error, this section is not visible (will be extended in Phase 2 to hide this). <br><br>
+	
+	<b>Section 6:</b> Last sections shows Pump Events (when something major happens on pump, pump sends so called Qualyfing Events, here the list of events will be shown (on next event old list will be cleaned). This functionality will be extended in Phase 3, to show only indicator that events were received, and events will be visible in another view. Now also displays Alerts and Alarms.<br><br>
+	
+	</blockquote></blockquote>
 	
 	</td>
 </tr>
@@ -64,6 +99,22 @@ In AAPS select t:mobi driver and go to configuration. Enable &quot;Use Shared Co
 
 </table>
 
+<hr>
 
+<h2>Currently implemented functionalities</h2>
+
+<ul>
+	<li>Get/Set Settings (disable IQControl, max bolus, max basal)</li>
+	<li>Get Battery Status</li>
+	<li>Get Insulin Level</li>
+	<li>Get/Set Basal Profile (Note: Mobi supports only 16 time segments, so you have to model your Basal Profile accordingly)</li>
+	<li>Get/Set/Cancel TBR (this enables Looping with oref0)</li>
+	<li>TZ and Daylightsaving time change (not tested)</li>
+	<li>Qualifying Events: On certain actions, pump sends so called QEs. This are listed in "Last Pump Event". This will be extended in next two phases, to display more information and be visible in special dialog.</li>
+	
+	<li>Alerts and Alarms: We read this on eveery pump status update (every 5 minutes) and display it also in "Last Pump Event". This will be extended probably in Phase 3</li>
+
+
+</ul>
 
 
