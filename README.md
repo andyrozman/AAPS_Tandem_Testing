@@ -83,7 +83,7 @@ If you want to see detailed view of what functionalities are being done, you can
 
 ## Release Notes for tags:
 
-tandem_0.4.26 - release for Phase 1 (completed)
+tandem_0.4.26.1 - release for Phase 1 (completed)
 
 
 
