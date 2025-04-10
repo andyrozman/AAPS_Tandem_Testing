@@ -6,6 +6,13 @@ You can see status in project view: [on https://github.com/users/andyrozman/proj
 We started on Phase 1 on 17th February and it was completed on 4th April 2025.
 
 
+# IMPORTANT NOTE
+
+At the moment we are in Phase 1, so TESTING ON LIVING PERSONS OR ANIMALS IS STRICTLY FORBIDDEN... You can test with your pump, by it not being 
+connected to anything... Until we have reached end of Phase 3, there will be no security measures fully implemented (comparing treatment data with
+pump history records, reporting to AAPS/Loop that treatment has stopped and at what time, etc)... 
+
+
 # AAPS - t:mobi Driver Documentation
 
 Documentation is maintained on this page: https://andyrozman.github.io/AAPS_Tandem_Testing/
