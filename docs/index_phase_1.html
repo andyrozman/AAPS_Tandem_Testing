@@ -1,20 +1,20 @@
 
 <h1 id="t-mobi-documentation">Tandem t:mobi (documentation)</h1>
 <p>NOTE: This is preliminary documentation which will grow as driver is being developed. For now it is intended for testers so that they can setup the driver correctly. Installation instruction for AAPS and controlX2 are in README</p>
-<b>Version:</b>&nbsp;&nbsp; 0.5.x (Phase 2)<br>
+<b>Version:</b>&nbsp;&nbsp; 0.4.x (Phase 1)<br>
 <b>Last updated:</b>&nbsp;&nbsp;4.4.2025<br>
 
 <br>
 <br>
 
 <h2 id="connection-setup">Connection setup</h2>
-<h3 id="a-using-shared-connection-with-controlx2-in-phase-1-this-is-the-only-way-">A.) Using shared connection with controlX2 (in Phase 1 and 2 this is the only way)</h3>
+<h3 id="a-using-shared-connection-with-controlx2-in-phase-1-this-is-the-only-way-">A.) Using shared connection with controlX2 (in Phase 1 this is the only way)</h3>
 <p>While we can share &quot;connection&quot; with controlX2, this doesn&#39;t mean that both apps can run at same time. If you wish to use controlX2, then you need to &quot;Force close&quot; AAPS and then you can start controlX2 (and vice-versa). If you want to use shared connection, you need to get latest controlX2 version (at least version 1.0.0-20250304). Then you need to install it and pair your t:mobi pump with it. After you paired your pump with controlX2, you need to go into Settings -&gt; Debug -&gt; View Pump State. There will be json with all connection data, use option &quot;Save to Clipboard&quot;. Force close the app and then start AAPS.
 In AAPS select t:mobi driver and go to configuration. Enable &quot;Use Shared Connection&quot;, click on &quot;Shared Connection Data&quot; copy the value you got from controlX2 and exit configuration. AAPS should now be able to connect to your pump. If for some reason doesn&#39;t work, &quot;Force Close&quot; AAPS and restart. Driver should be able to connect to pump now.</p>
 <h3 id="b-using-only-aaps">B.) Using only AAPS</h3>
-<p>This will be added in Phase 3, when all needed methods are implemented and UI options are available.</p>
+<p>This will be added in Phase 2, when all needed methods are implemented and UI options are available.</p>
 
-<b>IMPORTANT NOTE: </b>For testing having both applications is requirement, so you have to go with option A. But even in the future having additional application that can help you troubleshoot problem with the pump, is probably something you should consider (controlX2 has a lot of debugging options available that are not present in AAPS (and shouldn't be present there)). So recomendation is that you have both apps installed and always use "Shared connection" in AAPS. 
+<b>Note: </b>For testing having both applications is requirement, so you have to go with option A. But even in the future having additional application that can help you troubleshoot problem with the pump, is probably something you should consider (controlX2 has a lot of debugging options available that are not present in AAPS (and shouldn't be present there)). So recomendation is that you have both apps installed and always use "Shared connection" in AAPS. 
 
 
 <br><br>
@@ -91,13 +91,6 @@ Durring this operations you might get popup window that there was Unknown Mobi 2
 	
 	<b>Section 6:</b> Last sections shows Pump Events (when something major happens on pump, pump sends so called Qualyfing Events, here the list of events will be shown (on next event old list will be cleaned). This functionality will be extended in Phase 3, to show only indicator that events were received, and events will be visible in another view. Now also displays Alerts and Alarms.<br><br>
 	
-	<b>Section 7:</b> Indicator for Pump Data Status. This shows 3 labels NOTIF, EVENTS and HISTORY. 
-	
-	TODO
-	
-	Buttons (and next sections)
-	
-	
 	</blockquote></blockquote>
 	
 	</td>
@@ -105,40 +98,6 @@ Durring this operations you might get popup window that there was Unknown Mobi 2
 
 
 </table>
-
-
-<br><br>
-
-<h2 id="configuration-options">Data button</h2>
-
-When clicking button Data, we get dialog opened where there are 3 options:
-	- Notifications
-	- Events
-	- History
-
-<h3 id="configuration-options">Notifications</h3>
-
-
-
-
-
-TODO: - New configuration options
-      - UI - Data: - Events, History, Notitfication
-      - UI - PumpInfo, Canula options ...
-      - Notifications why are they important and how they work...
-      - Bolus
-      - History ???
-      - QE how they work
-      - Indicator
-
-
-History: Pump history is retrieved every 5 minutes, together with Pump Status check. History is always read form latest to oldest. We retrieve maximal 5 chunks of history data, each containing 200 records. Once we reach 1.5 
-months, we don't retrive any more historical data, but only the new entries that are added. So in the begining history will read lot of items, but afterwards, only new items will be read. Historical data is also cleaned from database, so we always have just last 1.5 months, so database won't grow needlesly...
-
-
-
-
-
 
 <hr>
 
@@ -153,7 +112,7 @@ months, we don't retrive any more historical data, but only the new entries that
 	<li>TZ and Daylightsaving time change (not tested)</li>
 	<li>Qualifying Events: On certain actions, pump sends so called QEs. This are listed in "Last Pump Event". This will be extended in next two phases, to display more information and be visible in special dialog.</li>
 	
-	<li>Alerts and Alarms: We read this on every pump status update (every 5 minutes) and display it also in "Last Pump Event". This will be extended probably in Phase 3</li>
+	<li>Alerts and Alarms: We read this on eveery pump status update (every 5 minutes) and display it also in "Last Pump Event". This will be extended probably in Phase 3</li>
 
 
 </ul>
