@@ -67,6 +67,50 @@ Sometimes stoping pump is not enough. If you see that TBR is still running you n
 <b>NOTE 3: </b> 
 Durring this operations you might get popup window that there was Unknown Mobi 20 error... You can just close that and continue as if nothing happens. <br>
 
+<h2 id="start-stopping-pump-cartridge-cannula-actions-solution-with-aaps">Starting / Stopping Pump / Cartridge - Cannula Actions (Solution with AAPS)</h2>
+<p>Follow the instructions below for starting/stopping your pump, changing the cartridge, and filling the tubing or cannula.</p>
+
+<table>
+<tr>
+	<td><img src="./pics/start_pump.png", height="480", width="216", alt="Starting Pump"></td>
+	<td><img src="./pics/cartridge_actions.png", height="481", width="216", alt="Cartridge Actions"></td>
+	<td>
+		<blockquote><blockquote>
+		<b>Settings and Actions</b>
+		<li>Opening the Settings page gives you a list of possible actions. You can access this page from the T:MOBI Overview. All the instructions in this section will start from this page.</li>
+		<br>
+		<b>Starting or Stopping the Pump</b>
+		<li>To resume insulin, select "Start Insulin", then "Resume Insulin" on the dialogue popup</li>
+		<li>To stop insulin, select "Stop Insulin", then "Stop Insulin" on the dialogue popup</li>
+		<br>
+		<b>Changing Cartridge</b>
+		<li>Select "Cartridge/Cannula Setup"</li>
+		<li>Select "Change Cartridge", then "Begin Change Cartridge" on the dialogue popup</li>
+		<li>The cartridge on the pump will unlock, and you can remove the old and insert the new cartridge</li>
+		<li>Once inserted, you can now fill the tubing</li>
+		<br>
+		<b>Fill Tubing</b>
+		<li>Select "Cartridge/Cannula Setup"</li>
+		<li>Select "Fill Tubing". <b>Disconnect the pump site from your body/site before filling</b></li>
+		<li>When ready to fill, select "Begin Fill Tubing" on the dialog popup</li>
+		<li>On your pump, hold down the pump button until insulin comes of the tubing</li>
+		<li>When done, a new popup will prompt you to continue. Select "Complete Fill" when done</li>
+		<li>The pump will finish up and you can now select "Done"</li>
+		<br>
+		<b>Fill Cannula</b>
+		<li>Select "Cartridge/Cannula Setup"</li>
+		<li>Select "Fill Cannula"</li>
+		<li>Enter the amount of units and press "Fill Cannula"</li>
+		<br>
+		<b>Site Reminder</b>
+		<li>Coming soon...</li>
+
+		</blockquote></blockquote>
+	</td>
+
+</tr>
+</table>
+
 
 <br>
 <hr>
@@ -91,7 +135,7 @@ Durring this operations you might get popup window that there was Unknown Mobi 2
 	
 	<b>Section 6:</b> Last sections shows Pump Events (when something major happens on pump, pump sends so called Qualyfing Events, here the list of events will be shown (on next event old list will be cleaned). This functionality will be extended in Phase 3, to show only indicator that events were received, and events will be visible in another view. Now also displays Alerts and Alarms.<br><br>
 	
-	<b>Section 7:</b> Indicator for Pump Data Status. This shows 3 labels NOTIF, EVENTS and HISTORY. 
+	<b>Section 7:</b> Indicator for Pump Data Status. This shows 3 labels NOTIFICATION, EVENTS and HISTORY. 
 	
 	TODO
 	
@@ -120,7 +164,7 @@ When clicking button Data, we get dialog opened where there are 3 options:
 
 
 
-
+<pre>
 
 TODO: - New configuration options
       - UI - Data: - Events, History, Notitfication
@@ -130,6 +174,10 @@ TODO: - New configuration options
       - History ???
       - QE how they work
       - Indicator
+
+</pre>
+
+
 
 
 History: Pump history is retrieved every 5 minutes, together with Pump Status check. History is always read form latest to oldest. We retrieve maximal 5 chunks of history data, each containing 200 records. Once we reach 1.5 
