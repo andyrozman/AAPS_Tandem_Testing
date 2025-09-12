@@ -1,87 +1,8 @@
 <html>
 <head>
 
-
-<script>
-(function buildTOC({
-  tocSelector = "#toc",
-  headings = "h1, h2, h3",          // change range if you want
-  root = document
-} = {}) {
-  const toc = root.querySelector(tocSelector);
-  if (!toc) return;
-
-  // slugify + ensure unique ids
-  const slugCounts = new Map();
-  const slug = s => s.toLowerCase()
-    .trim()
-    .replace(/[^\w\- ]+/g, "")
-    .replace(/\s+/g, "-");
-  const ensureId = h => {
-    if (!h.id) {
-      let base = slug(h.textContent || "section");
-      let n = (slugCounts.get(base) || 0);
-      slugCounts.set(base, n + 1);
-      h.id = n ? `${base}-${n}` : base;
-    }
-    return h.id;
-  };
-
-  const hs = [...root.querySelectorAll(headings)];
-  if (!hs.length) { toc.remove(); return; }
-
-  // Build nested list based on heading level
-  const getLevel = h => parseInt(h.tagName.slice(1), 10);
-  const minLevel = Math.min(...hs.map(getLevel));
-  const ulStack = [];
-  const topUl = document.createElement("ul");
-  toc.innerHTML = ""; toc.appendChild(topUl);
-  ulStack.push({ level: minLevel, ul: topUl });
-
-  hs.forEach(h => {
-    const level = getLevel(h);
-    const id = ensureId(h);
-    const a = document.createElement("a");
-    a.href = `#${id}`; a.textContent = h.textContent;
-
-    // climb or descend list levels
-    let current = ulStack[ulStack.length - 1];
-    if (level > current.level) {
-      for (let l = current.level + 1; l <= level; l++) {
-        const newUl = document.createElement("ul");
-        const lastLi = current.ul.lastElementChild || current.ul.appendChild(document.createElement("li"));
-        lastLi.appendChild(newUl);
-        ulStack.push({ level: l, ul: newUl });
-        current = ulStack[ulStack.length - 1];
-      }
-    } else if (level < current.level) {
-      while (ulStack.length && ulStack[ulStack.length - 1].level > level) ulStack.pop();
-      current = ulStack[ulStack.length - 1];
-    }
-
-    const li = document.createElement("li");
-    li.appendChild(a);
-    current.ul.appendChild(li);
-  });
-
-  // Optional: highlight current section
-  const links = toc.querySelectorAll("a");
-  const map = new Map([...links].map(a => [a.getAttribute("href"), a]));
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      const id = "#" + e.target.id;
-      const link = map.get(id);
-      if (link) link.classList.toggle("active", e.isIntersecting);
-    });
-  }, { rootMargin: "0px 0px -70% 0px", threshold: 0.01 });
-  hs.forEach(h => io.observe(h));
-})();
-</script>
-
-
-
 <style>
-#toc { position: sticky; top: 1rem; max-height: 80vh; overflow:auto; font: 14px/1.4 system-ui, sans-serif; }
+#toc { position: relative; top: 0 }
 #toc ul { list-style: none; margin: .25rem 0 .25rem .75rem; padding: 0; }
 #toc > ul { margin-left: 0; }
 #toc a { text-decoration: none; color: #444; }
@@ -91,34 +12,125 @@
 
 </head>	
 
-
-
 <body>
+
+
 
 <h1 id="t-mobi-documentation">Tandem t:mobi (documentation)</h1>
 <p>NOTE: This is preliminary documentation which will grow as driver is being developed. For now it is intended for testers so that they can setup the driver correctly. Installation instruction for AAPS and controlX2 are in README</p>
 <b>Version:</b>&nbsp;&nbsp; 0.6.x (Phase 3)<br>
-<b>Last updated:</b>&nbsp;&nbsp;23.8.2025<br>
+<b>Last updated:</b>&nbsp;&nbsp;12.9.2025<br>
 
 <br>
-<b>This documentation is just partial...</b>
+<b>This documentation is stil just partial... Where information is missing is marked with TODO word.</b>
 
 <br>
 <br>
 
-<aside id="toc"></aside>
 
+<b>Important: Please read this documentation carefully, so that you can see how mobi works and how this driver works, which will help you also with decision how to setup the pump. Mobi has some special functions and requirements, so sometime is might get tricky on how to use it.</b>
+
+<br><br>
+
+
+<h4>Table of content</h4>
+
+<aside id="toc"><nav class="toc">
+	<ol>
+		<li><a href="#connection-setup">Connection setup</a></li>
+		<ol>
+			<li><a href="#a-using-shared-connection">A.) Using shared connection with controlX2</a></li>
+			<li><a href="#b-using-only-aaps">B.) Using only AAPS</a></li>
+		</ol>
+		
+		<li><a href="#overview">Overview in T:MOBI tab</a></li>
+			
+		<li><a href="#configuration-options">Configuration options</a></li>
+			
+		<li><a href="#mobi-details">Details how driver and mobi work</a></li>
+			<ol>
+				<li><a href="#mobi-details-startup-sequence">Startup sequence</a></li>
+				<li><a href="#mobi-details-pump-notifications">(Pump) Notifications</a></li>
+				<li><a href="#mobi-details-events">Events</a></li>
+				<li><a href="#mobi-details-pump-refresh">Refresh data in driver</a></li>
+				<li><a href="#mobi-details-bolus">Bolus</a></li>
+			</ol>
+
+		<li><a href="#actions">Actions (buttons on lower part of overview)</a></li>
+		<ol>
+			<li><a href="#actions-refresh">Refresh button</a></li>
+			<li><a href="#data-button">Data button</a></li>
+			<li><a href="#settings-button">Settings</a></li>
+		</ol>
+			
+		<li>
+			<a href="#currently-implemented-functionalities">Currently implemented functionalities</a>
+		</li>
+	</ol>
+	</nav>
+</aside>
+<br>
+
+
+<br><br>
 
 
 <h2 id="connection-setup">Connection setup</h2>
-<h3 id="a-using-shared-connection-with-controlx2-in-phase-1-this-is-the-only-way-">A.) Using shared connection with controlX2 (in Phase 1 and 2 this is the only way)</h3>
-<p>While we can share &quot;connection&quot; with controlX2, this doesn&#39;t mean that both apps can run at same time. If you wish to use controlX2, then you need to &quot;Force close&quot; AAPS and then you can start controlX2 (and vice-versa). If you want to use shared connection, you need to get latest controlX2 version (at least version 1.0.0-20250304). Then you need to install it and pair your t:mobi pump with it. After you paired your pump with controlX2, you need to go into Settings -&gt; Debug -&gt; View Pump State. There will be json with all connection data, use option &quot;Save to Clipboard&quot;. Force close the app and then start AAPS.
-In AAPS select t:mobi driver and go to configuration. Enable &quot;Use Shared Connection&quot;, click on &quot;Shared Connection Data&quot; copy the value you got from controlX2 and exit configuration. AAPS should now be able to connect to your pump. If for some reason doesn&#39;t work, &quot;Force Close&quot; AAPS and restart. Driver should be able to connect to pump now.</p>
+
+While there is option to connect to pump directly from AAPS (B), I would like to remind you that t:mobi is pump without screen, and if something goes wrong, there is no way to fix the pump from AAPS. To solve serious problems with pump, you would either need offical app (on iPhone, there is still no app for Android) or controlX2. ControlX2 is small Android app (intended mainly for t:slim X2) which can monitor your pump, issue Bolus, TBR. Newer versions were extended with Mobi specific commands and requirements (change cartridge, fill cannula, etc), some of which we directly use in this driver, but what is important difference is, that it has ability to issue any supported command to pump directly, and ability to debug  problems. Installing controlX2 doesn't mean that there will be both applications running, it just means that if something goes wrong, we can shutdown (force close) AAPS and then start controlX2 (both apps can't run at the same time, because they both require exclusive access to pump.<br>
+Once pump is configured and software is running, connection to pump is 24/7, we never disconnect from pump.<br>
+
+<h3 id="a-using-shared-connection">A.) Using shared connection with controlX2</h3>
+
+<p>
+Good. So you decided to go with with shared option. Visit <a href="https://github.com/jwoglom/controlX2/releases">https://github.com/jwoglom/controlX2/releases</a> and search for version 1.0.0-20250304. This is currently only modified version that supports shared connection with AAPS. Install app on the same phone where you will be using AAPS. Pair your t:mobi with app and get it running. T:mobi pairing on Android is little temperamental, so you might need several tries. To pair the pump you need to put it on the pad, and then press the button for 3 seconds, which will put it into pairing mode. After your pump is succesfully communicating with controlX2, you need to go into Setings, then Debug and then "View Pump State". There will be json with all connection data, use option &quot;Save to Clipboard&quot;. Force close the app and then start AAPS.
+</p>
+<p>
+In AAPS select t:mobi driver and go to configuration. Enable &quot;Use Shared Connection&quot;, which will make &quot;Shared Connection Data&quot; visible, click on the option and copy the value you got from controlX2 and exit configuration. AAPS should now be able to connect to your pump. If for some reason doesn&#39;t work, &quot;Force Close&quot; AAPS and restart. Driver should be able to connect to pump now.</p>
+
+
+
+
 <h3 id="b-using-only-aaps">B.) Using only AAPS</h3>
 <p>This will be added in Phase 3, when all needed methods are implemented and UI options are available.</p>
+<b>TODO</b><br>
 
-<b>IMPORTANT NOTE: </b>For testing having both applications is requirement, so you have to go with option A. But even in the future having additional application that can help you troubleshoot problem with the pump, is probably something you should consider (controlX2 has a lot of debugging options available that are not present in AAPS (and shouldn't be present there)). So recomendation is that you have both apps installed and always use "Shared connection" in AAPS. 
 
+<br>
+<hr>
+<br>
+
+<h2 id="overview">Overview in T:MOBI tab</h2>
+
+<table>
+<tr>
+	<td>
+		<img src="./pics/overview_v2.jpg" height="480" width="216" alt="Overview">
+	</td>
+	<td><blockquote><blockquote>Once you have Mobi configured, tab T:MOBI becomes available, displaying all important information. Information is divided in 6 different sections.<br><br>
+	
+	<b>Section 1:</b> Information about your pump: Firmware, Serial Number and BT address. If you have configured display of driver version, then version of driver will also be displayed (when reporting bugs in driver, this information needs to be in report. It helps us pinpoint the problem, and we can also determine if this error was already fixed). <br><br>
+	
+	<b>Section 2:</b> : Displays State of pump connection, this shows Connected if pump is connected, or if command is running it will show name of command running and also the Queue of commands (queue hides when empty). <br><br>
+	
+	<b>Section 3:</b> Battery status, reservoir level and when last command was processed. <br><br>
+	
+	<b>Section 4:</b> Displays last bolus, base basal rate and if temp basal is currently running (and with what values). <br><br>
+	
+	<b>Section 5:</b> Displays driver errors (mostly this would be filled if there is problem with configuration or if for some reason we lost connection with the pump). At the moment driver is unable to reconnect automatically with pump (auto reconnect will be added in Phase 3). If you loose connection with pump please restart AAPS (with Force Stop)). If there are no error, this section is not visible. TODO<br><br>
+	
+	<b>Section 6:</b> Indicator for Pump Data Status. This shows 3 labels NOTIFICATION, EVENTS and HISTORY. If they are in natural color (depending on theme) then there is nothing to see, but if options colors, then there are new items available (red for new notifications, green for new events and blue for new history items). <br><br>
+	
+	<b>Under sections:</b>You can see picture of t:mobi and under it there are 3 buttons. What buttons do you can see in section "Actions (buttons on lower part of overview)"
+	
+	
+	</blockquote></blockquote>
+	
+	</td>
+</tr>
+
+
+</table>
 
 
 
@@ -128,19 +140,27 @@ In AAPS select t:mobi driver and go to configuration. Enable &quot;Use Shared Co
 
 <table>
 <tr>
-	<td><img src="./pics/mobi_driver_prefs_v1.jpg" height="480" width="216" alt="Overview"></td>
+	<td>
+		
+		<img src="./pics/pref_v2_1.jpg" height="480" width="216" alt="Settings 1"> &nbsp;
+		<img src="./pics/pref_v2_2.jpg" height="480" width="216" alt="Settings 2">
+		
+		</td>
+
 	<td> 
 		<blockquote><blockquote>
 		
-		<b>Serial Number: </b>&nbsp; After pump is paired and connected sucessfuly, this field will be populated with Serial Number.<br><br>
 		<b>Use Shared connection: </b> See previous section (<i>Connection setup</i>) how this works. But in short we can either use shared connection for which we also need to populate <b>Shared connection data</b>, or we can use just AAPS connection, for which we need to click
-		on <b>Tandem Configuration</b> which will lead us through pairing process (<b><i>Will be available in Phase 2</i></b>).<br><br>
+		on <b>Tandem Pump Pairing</b> which will lead us through pairing process. Options become visible depending on the switch...<br><br>
 		 
 		<b>Max Bolus on Pump:</b>&nbsp;&nbsp;This sets what is max amount of bolus allowed. This is not limited to the current hour, its just max amount you can use at any time, value should be beween 1 and 25 (if you need bigger dose, you can just dose twice).<br><br>
 		
 		<b>Max Basal on Pump:</b>&nbsp;&nbsp;This sets max amount of basal insulin person can receive in a hour. Valid values are 1 to 15. You can go with max value here, but if you want to limit this the formula is to look at your highest hourly value and then multiply it 2.5 (250% is max TBR possible).<br><br>
 		
 		<b>Display driver version:</b>&nbsp;&nbsp;Display driver version on t:MOBI tab (in Section 1, 4th line if enabled - see Overview for more info)
+		
+		
+		<b>TODO</b><br>
 		
 		</blockquote></blockquote>		
 	</td>
@@ -153,14 +173,20 @@ In AAPS select t:mobi driver and go to configuration. Enable &quot;Use Shared Co
 
 
 
+
+
+
+<br><br>
+<hr>
 <br>
+
+
+<h2 id="mobi-details">Details how driver and mobi work</h2>
+
+<h3 id="mobi-details-startup-sequence">Startup sequence</h3>
+
+Everytime you run AAPS and driver connects to the pump, there will be sequence of commands executed, that will retrive initial data and see if your pump is running ok and what the state it. This process can take up to 2 minutes, depending on how fast your phone is, how good BT connection is and if this is one of first times running the driver. On each start driver also checks if you have enabled internal mobi loop and disables it (official tandem loop and AAPS loop can't run at the same time).
 <br>
-
-
-<h2 id="startup-sequence">Startup sequence</h2>
-
-Everytime you run AAPS and driver connects to the pump, there will be sequence of commands executed, that will retrive initial data and see if your pump is running ok and what the state it. This process can take up to 2 minutes, depending on how fast your phone is, how good BT connection is and if this is one of first times running the driver.
-Everytime you run AAPS and driver connects to the pump, there will be sequence of commands executed, that will retrive initial data and see if your pump is running ok and what the state it. This process can take up to 2 minutes, depending on how fast your phone is, how good BT connection is and if this is one of first times running the driver.<br>
 <br>
 List of commands that will be executed is:
 
@@ -182,69 +208,79 @@ During startup sequence buttons are disabled.
 <br>
 
 
-<h2 id="pump-notifications">(Pump) Notifications</h2>
+<h3 id="mobi-details-pump-notifications">(Pump) Notifications</h3>
 Since pump doesn't have screen it must show notifications differently. This is done through beeps and/or vibrations and blinking of lights beside button. Also when notification happen, it can send event (not always) and/or certain alarm/alert setting is triggered. Driver reads this information every 5 minutes and if there are any notification, indicator is colored (see Overview section). When this happens you can click Data button and then select Notifications option, which will display all notifications. If you press on notification, it will be dismissed on pump, and pump will stop beeping/vibrating every few minutes.<br><br>
 
-Most of notifications (alerts) are just of informational value, but Alerts and some other notifications will prevent pump commands. So for example if you are in Alarm state (and you don't confirm the Alarm), you won't be able to Stop/Start the pump or do any Canula/Reservoir actions. So confirming notification on Mobi is important step.
+Most of notifications (alerts) are just of informational value, but Alarms and some other notifications will prevent pump commands. So for example if you are in Alarm state (and you don't confirm the Alarm), you won't be able to Stop/Start the pump or do any Canula/Reservoir actions. So confirming notification on Mobi is important step.
 
 
 <br>
 <br>
 
 
-<h2 id="pump-refresh">Refresh data in driver</h2>
+<h3 id="mobi-details-events">Events</h3>
+
+AAPS is connected to pump 24/7. Main reason for this are events (which are at this moment not working correctly, but issue is being investigated - on pumpX2 library level), which give real-time warnings, notifications and information from pump.
+
+
+<br>
+<br>
+
+
+<h3 id="mobi-details-pump-refresh">Refresh data in driver</h3>
 
 To keep driver working correctly, we have to refresh data regularly, so this are refresh operations.
 
 <li><b>Pump Status, Alerts, Alarms, History</b> - This is refreshed every 5 minutes</li>
 <li><b>Remaining insulin</b> - Refreshed every hour (when over 50%), every half hour (when over 20%) or every 15 minutes when lower than 20%.</li>
 <li><b>Battery Level</b> - Refreshed every hour (when over 30%), every half hour (when over 20%) or every 15 minutes when lower than 20%.</li>
-
-
-
-
-
-<br>
 <br>
 
+
+<h3 id="mobi-details-bolus">Bolus</h3>
+Mobi driver supports bth standard and SMB bolus types. When bolus is runing you will see dialog, but please note that progress of delivery is just an estimate (mobi delivery doesn't track how much of bolus was actualy delivered, we estimate the value with amount of time bolus was delivering), which means that bolus might finish before progress bar reached the end, or end is reached and bolus is still delivering...<br>
 
 
 <br>
 <hr>
 <br>
 
-<h2 id="overview">Overview in T:MOBI tab</h2>
-
-<table>
-<tr>
-	<td><img src="./pics/mobi_driver_overview_v1.jpg" height="480" width="216" alt="Overview"></td>
-	<td><blockquote><blockquote>Once you have Mobi configured, tab T:MOBI becomes available, displaying all important information. Information is divided in 6 different sections.<br><br>
-	
-	<b>Section 1:</b> Information about your pump: Firmware, Serial Number and BT address. If you have configured display of driver version, then version of driver will also be displayed (while doing testing please have this turned on at all times, so that when you report something you can tell me in which version of driver it happened, this will help find problems faster and also see if the problem was fixed in meantime). <br><br>
-	
-	<b>Section 2:</b> : Displays State of pump connection, this shows Connected if pump is connected, or if command is running it will show name of command running and also the Queue of commands (queue hides when empty). <br><br>
-	
-	<b>Section 3:</b> Battery status, reservoir level and when last command was processed. <br><br>
-	
-	<b>Section 4:</b> Displays last bolus, base basal rate and if temp basal is currently running (and with what values). <br><br>
-	
-	<b>Section 5:</b> Displays driver errors (mostly this would be filled if there is problem with configuration or if for some reason we lost connection with the pump). At the moment driver is unable to reconnect automatically with pump (auto reconnect will be added in Phase 3). If you loose connection with pump please restart AAPS (with Force Stop)). If there are no error, this section is not visible. <br><br>
-	
-	<b>Section 6:</b> Indicator for Pump Data Status. This shows 3 labels NOTIFICATION, EVENTS and HISTORY. If they are in natural color (depending on theme) then there is nothing to see, but if options colors, then there are new items available. 
-	
-	
-	</blockquote></blockquote>
-	
-	</td>
-</tr>
 
 
-</table>
+<h2 id="actions">Actions (buttons on lower part of overview)</h2>
 
 
+<h3 id="actions-refresh">Refresh button</h3>
+Refresh button is intended, to forcibly refresh all the data (it would be the sama data retrieval when we start the AAPS) 
+
+<br><br>
+
+<h3 id="data-button">Data button</h3>
+
+When clicking button Data, we get dialog opened where there are 3 options:
+	- Notifications
+	- Events
+	- History
+
+<h4 id="data-notifiction">Notifications</h4>
+<b>TODO</b><br>
+
+<h4 id="data-events">Events</h4>
+<b>TODO</b><br>
+
+<h4 id="data-history">History</h4>
+Pump history is retrieved every 5 minutes, together with Pump Status check. History is always read from latest to oldest. We retrieve maximal 5 chunks of history data, each containing 200 records. Once we reach 1.5 
+months, we don't retrive any more historical data. So in the begining history will read lot of items, but afterwards, only new items will be read. Historical data is also cleaned from database, so we always have just last 1.5 months, so database won't grow needlesly...
+
+<b>TODO</b><br>
+
+<br><br>
 
 
-<h2 id="start-stopping-pump-cartridge-cannula-actions-solution-with-aaps">Starting / Stopping Pump / Cartridge - Cannula Actions (Solution with AAPS)</h2>
+<h3 id="settings-button">Settings</h3>
+
+
+Starting / Stopping Pump / Cartridge - Cannula Actions (Solution with AAPS)
 <p>Follow the instructions below for starting/stopping your pump, changing the cartridge, and filling the tubing or cannula.</p>
 
 <table>
@@ -290,17 +326,13 @@ To keep driver working correctly, we have to refresh data regularly, so this are
 
 
 
+<b>TODO</b><br>
+
+
+
 
 <br><br>
 
-<h2 id="configuration-options">Data button</h2>
-
-When clicking button Data, we get dialog opened where there are 3 options:
-	- Notifications
-	- Events
-	- History
-
-<h3 id="configuration-options">Notifications</h3>
 
 
 
@@ -309,10 +341,8 @@ When clicking button Data, we get dialog opened where there are 3 options:
 TODO: - New configuration options
       - UI - Data: - Events, History, Notitfication
       - UI - PumpInfo, Canula options ...
-      - Notifications why are they important and how they work...
-      - Bolus
+
       - History ???
-      - QE how they work
       - Indicator
 
 </pre>
@@ -320,8 +350,6 @@ TODO: - New configuration options
 
 
 
-History: Pump history is retrieved every 5 minutes, together with Pump Status check. History is always read form latest to oldest. We retrieve maximal 5 chunks of history data, each containing 200 records. Once we reach 1.5 
-months, we don't retrive any more historical data, but only the new entries that are added. So in the begining history will read lot of items, but afterwards, only new items will be read. Historical data is also cleaned from database, so we always have just last 1.5 months, so database won't grow needlesly...
 
 
 
@@ -330,7 +358,7 @@ months, we don't retrive any more historical data, but only the new entries that
 
 <hr>
 
-<h2>Currently implemented functionalities</h2>
+<h2 id="currently-implemented-functionalities">Currently implemented functionalities</h2>
 
 <ul>
 	<li>Get/Set Settings (disable IQControl, max bolus, max basal)</li>
@@ -348,5 +376,6 @@ months, we don't retrive any more historical data, but only the new entries that
 
 
 </body>
+
 
 </html>
