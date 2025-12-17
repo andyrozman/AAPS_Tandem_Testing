@@ -30,7 +30,7 @@ While this implementation was already put into Beta phase, there are still few t
 
 So if you find anything that doesn't work, please check there first, if you can't find it, post a message in our discord group, so that we can discuss if this is a bug or just how it works. If we discover something new, we will add it as bug. <br><br>
 
-My plan is to implement missing functionalities by end of year, but I have some personal things happening at the moment, so my time is limited (and I am little bit distracted because of it).<br><br>
+Plan is to implement missing functionalities in January, while you are all testing what we currently have.<br><br>
 
 Please read documentation, before you start testing. You will have to go with option A for connection, but that is preffered way anyways.<br><br>
 
@@ -115,7 +115,7 @@ In AAPS select t:mobi driver and go to configuration. Enable &quot;Use Shared Co
 
 <h3 id="b-using-only-aaps">B.) Using only AAPS</h3>
 <p>This will be added in Phase 4, when all needed methods are implemented and UI options are available.</p>
-<b>TODO</b><br>
+<b>TODO - Missing functionality</b><br>
 
 
 <br>
@@ -297,13 +297,13 @@ Refresh button is intended, to forcibly refresh all the data (it would be the sa
 
 	<td> 
 		<blockquote><blockquote>
-
-When clicking button Data, we get dialog opened where there are 3 options:
-	- Notifications
-	- Events
-	- History
-
-		
+			This is the main window, from where you can access all 3 options. Events and Pump History are of informational value only, while Notifications can be (and must be confirmed).
+			<br>Each option will be explained in detail in following sections (and some background is also provided in some other sections, as it will be indicated in each of separate screen):<br>
+			<ul>
+			<li>Notifications</li>
+			<li>Events</li>
+			<li>Pump History</li>
+			</ul>
 
 		</blockquote></blockquote>		
 	</td>
@@ -336,7 +336,7 @@ When clicking button Data, we get dialog opened where there are 3 options:
 	- Notifications
 	- Events
 	- History
-
+<b>TODO</b>
 		
 
 		</blockquote></blockquote>		
@@ -380,7 +380,7 @@ When clicking button Data, we get dialog opened where there are 3 options:
 	- Events
 	- History
 
-		
+		<b>TODO</b>
 
 		</blockquote></blockquote>		
 	</td>
@@ -419,7 +419,7 @@ Pump history is retrieved every 5 minutes, together with Pump Status check. Hist
 
 So in the begining history will read lot of items, but afterwards, only new items will be read. Historical data is also cleaned from database, so we always have just last 1.5 months, so database won't grow needlesly...<br><br>
 
-History is not parsed, we just display whatever history fields we have recognized by pumpX2 library. In some cases we do some minor parsing of certain recognizable fields, but not many. This might be extended in future, but history mostly had information value and is not used by driver. <br><br>
+History is not parsed, we just display whatever history fields we have recognized by pumpX2 library. In some cases we do some minor parsing of certain recognizable fields, but not many. This might be extended in future, but history is of information value only and is not used by driver. <br><br>
 
 You can see details of item, by clicking/pressing on them.<br><br>
 
@@ -439,7 +439,7 @@ Items can be filtered by Group, default option, displays all item, except Unknow
 
 
 
-<b>TODO</b><br>
+<br>
 
 <br><br>
 
@@ -472,10 +472,9 @@ Items can be filtered by Group, default option, displays all item, except Unknow
 		<li>If there is TBR running, you can't stop insulin. If TBR is running extra option will be displayed. Clicking it will stop TBR.</li>
 		<br>
 
-		<b>Pump Info</b>
+		<b>Pump Info</b><br>
+		This window just displays basic information about pump. This is mostly technical information, which might be needed if you had to contact Tandem support about a problem. Please don't mention that you are using AAPS or else they might be less than helpful... While using AAPS is not against the rules, it is frowned upon (they want you to use their original software - which is not existent (on Android) at the time of writing of this document).
 
-TODO
-		
 
 		</blockquote></blockquote>		
 	</td>
@@ -497,7 +496,7 @@ TODO
 
 
 
-Starting / Stopping Pump / Cartridge - Cannula Actions (Solution with AAPS)
+<h4>Starting / Stopping Pump / Cartridge - Cannula Actions (Solution with AAPS)</h4>
 <p>Follow the instructions below for starting/stopping your pump, changing the cartridge, and filling the tubing or cannula.</p>
 
 <table>
@@ -526,8 +525,8 @@ Starting / Stopping Pump / Cartridge - Cannula Actions (Solution with AAPS)
 		<li>Enter the amount of units and press "Fill Cannula"</li>
 		<br>
 		<b>Site Reminder</b>
-		<li>Coming soon...</li>
-		TODO
+		<li>Coming soon... TODO</li>
+		
 
 		</blockquote></blockquote>
 	</td>
@@ -576,10 +575,10 @@ TODO: - New configuration options
 	<li>Get Insulin Level</li>
 	<li>Get/Set Basal Profile (Note: Mobi supports only 16 time segments, so you have to model your Basal Profile accordingly)</li>
 	<li>Get/Set/Cancel TBR (this enables Looping with oref0)</li>
+	<li>Get/Set Bolus (this enables Looping with oref1)</li>
 	<li>TZ and Daylightsaving time change (not tested)</li>
-	<li>Qualifying Events: On certain actions, pump sends so called QEs. This are listed in "Last Pump Event". This will be extended in next two phases, to display more information and be visible in special dialog.</li>
-	
-	<li>Alerts and Alarms: We read this on every pump status update (every 5 minutes) and display it also in "Last Pump Event". This will be extended probably in Phase 3</li>
+	<li>Qualifying Events: On certain actions, pump sends so called QEs. You can see events in Data -> Events.</li>
+	<li>Alerts and Alarms: We read this on every pump status update (every 5 minutes) and display it in Data -> Notifications.</li>
 
 
 </ul>
@@ -591,14 +590,15 @@ TODO: - New configuration options
 <h2 id="troubleshooting">Troubleshooting</h2>
 
 <h4>I forgot to charge up my pump and now it has powered down</h4>
-No panic. Just charge the pump for about 15 minutes or so and then bring pump out of sleep mode. Start AAPS and pump should be running. You will have to change the reservoir and then "Start Insulin". If there are any notifications you need to clear them first. 
+No panic. Just charge the pump for about 15 minutes or so and then bring pump out of sleep mode. Start AAPS and pump should be running. You will have to change the reservoir and then "Start Insulin". If there are any notifications you need to clear them first. <br><br>
 
+<br>
+This section will be extended when we find areas that need troubleshooting.
+<br>
 
-
-
-
-TODO
-
+<br>
+<br>
+Copyright (c) 2025 - AAPS, developed by AndyRozman (AAPS) and JWoglom (pumpX2 library and little AAPS)
 
 
 </body>
