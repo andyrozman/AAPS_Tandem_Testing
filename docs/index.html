@@ -17,14 +17,36 @@
 
 
 <h1 id="t-mobi-documentation">Tandem t:mobi (documentation)</h1>
-<p>NOTE: This is preliminary documentation which will grow as driver is being developed. For now it is intended for testers so that they can setup the driver correctly. Installation instruction for AAPS and controlX2 are in README</p>
-<b>Version:</b>&nbsp;&nbsp; 0.6.x (Phase 3)<br>
-<b>Last updated:</b>&nbsp;&nbsp;12.9.2025<br>
+
+<b>Version:</b>&nbsp;&nbsp; 0.7.x (Phase 4)<br>
+<b>Last updated:</b>&nbsp;&nbsp;1.11.2025<br><br>
+
+
+<hr>
+
+<h2><blink>Beta Testing</blibnk></h2>
+
+While this implementation was already put into Beta phase, there are still few things that need to be done. All things that are missing are listed as feature request and all bugs found will also apear there... You can find everything here: <a href="https://github.com/andyrozman/AAPS_Tandem_Testing/issues">issues</a><br><br>
+
+So if you find anything that doesn't work, please check there first, if you can't find it, post a message in our discord group, so that we can discuss if this is a bug or just how it works. If we discover something new, we will add it as bug. <br><br>
+
+My plan is to implement missing functionalities by end of year, but I have some personal things happening at the moment, so my time is limited (and I am little bit distracted because of it).<br><br>
+
+Please read documentation, before you start testing. You will have to go with option A for connection, but that is preffered way anyways.<br><br>
+
+In some cases you need to restart AAPS after you set your pump for first time.
+
 
 <br>
 <b>This documentation is stil just partial... Where information is missing is marked with TODO word.</b>
+<br><br>
 
-<br>
+
+<hr>
+
+
+
+
 <br>
 
 
@@ -83,7 +105,7 @@ Once pump is configured and software is running, connection to pump is 24/7, we 
 <h3 id="a-using-shared-connection">A.) Using shared connection with controlX2</h3>
 
 <p>
-Good. So you decided to go with with shared option. Visit <a href="https://github.com/jwoglom/controlX2/releases">https://github.com/jwoglom/controlX2/releases</a> and search for version 1.0.0-20250304. This is currently only modified version that supports shared connection with AAPS. Install app on the same phone where you will be using AAPS. Pair your t:mobi with app and get it running. T:mobi pairing on Android is little temperamental, so you might need several tries. To pair the pump you need to put it on the pad, and then press the button for 3 seconds, which will put it into pairing mode. After your pump is succesfully communicating with controlX2, you need to go into Setings, then Debug and then "View Pump State". There will be json with all connection data, use option &quot;Save to Clipboard&quot;. Force close the app and then start AAPS.
+Good. So you decided to go with with shared option. Visit <a href="https://github.com/jwoglom/controlX2/releases">https://github.com/jwoglom/controlX2/releases</a> and search for latest version (1.0.0-20251102 at time of writing this documentation). This is currently only modified version that supports shared connection with AAPS. Install app on the same phone where you will be using AAPS. Pair your t:mobi with app and get it running. T:mobi pairing on Android is little temperamental, so you might need several tries. To pair the pump you need to put it on the pad, and then press the button for 3 seconds, which will put it into pairing mode. After your pump is succesfully communicating with controlX2, you need to go into Setings, then Debug and then "View Pump State". There will be json with all connection data, use option &quot;Save to Clipboard&quot;. Force close the app and then start AAPS.
 </p>
 <p>
 In AAPS select t:mobi driver and go to configuration. Enable &quot;Use Shared Connection&quot;, which will make &quot;Shared Connection Data&quot; visible, click on the option and copy the value you got from controlX2 and exit configuration. AAPS should now be able to connect to your pump. If for some reason doesn&#39;t work, &quot;Force Close&quot; AAPS and restart. Driver should be able to connect to pump now.</p>
@@ -92,7 +114,7 @@ In AAPS select t:mobi driver and go to configuration. Enable &quot;Use Shared Co
 
 
 <h3 id="b-using-only-aaps">B.) Using only AAPS</h3>
-<p>This will be added in Phase 3, when all needed methods are implemented and UI options are available.</p>
+<p>This will be added in Phase 4, when all needed methods are implemented and UI options are available.</p>
 <b>TODO</b><br>
 
 
@@ -245,7 +267,7 @@ To keep driver working correctly, we have to refresh data regularly, so this are
 
 
 <h3 id="mobi-details-bolus">Bolus</h3>
-Mobi driver supports bth standard and SMB bolus types. When bolus is runing you will see dialog, but please note that progress of delivery is just an estimate (mobi delivery doesn't track how much of bolus was actualy delivered, we estimate the value with amount of time bolus was delivering), which means that bolus might finish before progress bar reached the end, or end is reached and bolus is still delivering...<br>
+Mobi driver supports both standard and SMB bolus types. When bolus is runing you will see dialog, but please note that progress of delivery is just an estimate (mobi delivery doesn't track how much of bolus was actualy delivered, we estimate the value with amount of time bolus was delivering), which means that bolus might finish before progress bar reached the end, or end is reached and bolus is still delivering...<br>
 
 
 <br>
@@ -264,27 +286,215 @@ Refresh button is intended, to forcibly refresh all the data (it would be the sa
 
 <h3 id="data-button">Data button</h3>
 
+
+<table>
+<tr>
+	<td>
+		
+		<img src="./pics/data_main.jpg" height="480" width="216" alt="Data Main"> &nbsp;
+		
+	</td>
+
+	<td> 
+		<blockquote><blockquote>
+
 When clicking button Data, we get dialog opened where there are 3 options:
 	- Notifications
 	- Events
 	- History
 
+		
+
+		</blockquote></blockquote>		
+	</td>
+
+
+</tr>
+
+
+</table>
+
+<br><br>
+
+
+
 <h4 id="data-notifiction">Notifications</h4>
+
+
+<table>
+<tr>
+	<td>
+		
+		<img src="./pics/data_notifications.jpg" height="480" width="216" alt="Data Main"> &nbsp;
+		
+	</td>
+
+	<td> 
+		<blockquote><blockquote>
+
+When clicking button Data, we get dialog opened where there are 3 options:
+	- Notifications
+	- Events
+	- History
+
+		
+
+		</blockquote></blockquote>		
+	</td>
+
+
+</tr>
+
+
+</table>
+
+<br><br>
+
+
+
+
+
+
+
+
+
+
 <b>TODO</b><br>
 
 <h4 id="data-events">Events</h4>
+
+
+<table>
+<tr>
+	<td>
+		
+		<img src="./pics/data_events.jpg" height="480" width="216" alt="Data Main"> &nbsp;
+		
+	</td>
+
+	<td> 
+		<blockquote><blockquote>
+
+When clicking button Data, we get dialog opened where there are 3 options:
+	- Notifications
+	- Events
+	- History
+
+		
+
+		</blockquote></blockquote>		
+	</td>
+
+
+</tr>
+
+
+</table>
+
+<br><br>
+
+
+
+
+
 <b>TODO</b><br>
 
 <h4 id="data-history">History</h4>
-Pump history is retrieved every 5 minutes, together with Pump Status check. History is always read from latest to oldest. We retrieve maximal 5 chunks of history data, each containing 200 records. Once we reach 1.5 
-months, we don't retrive any more historical data. So in the begining history will read lot of items, but afterwards, only new items will be read. Historical data is also cleaned from database, so we always have just last 1.5 months, so database won't grow needlesly...
+
+
+<table>
+<tr>
+	<td>
+		<img src="./pics/data_pump_history.jpg" height="480" width="216" alt="History">
+	</td>
+	<td>
+		<img src="./pics/data_pump_history_details.jpg", height="480", width="216", alt="History details">
+	</td>
+
+
+	<td> 
+		<blockquote><blockquote>
+
+Pump history is retrieved every 5 minutes, together with Pump Status check. History is always read from latest to oldest. We retrieve maximal 5 chunks of history data, each containing 200 records. Once we reach 1.5 months, we don't retrive any more historical data. <br><br>
+
+So in the begining history will read lot of items, but afterwards, only new items will be read. Historical data is also cleaned from database, so we always have just last 1.5 months, so database won't grow needlesly...<br><br>
+
+History is not parsed, we just display whatever history fields we have recognized by pumpX2 library. In some cases we do some minor parsing of certain recognizable fields, but not many. This might be extended in future, but history mostly had information value and is not used by driver. <br><br>
+
+You can see details of item, by clicking/pressing on them.<br><br>
+
+Items can be filtered by Group, default option, displays all item, except Unknown items.
+		
+
+		</blockquote></blockquote>		
+	</td>
+
+
+</tr>
+
+
+</table>
+
+<br><br>
+
+
 
 <b>TODO</b><br>
 
 <br><br>
 
 
-<h3 id="settings-button">Settings</h3>
+<h3 id="settings-button">Settings / Actions</h3>
+
+
+
+<table>
+<tr>
+	<td>
+		<img src="./pics/start_pump.png" height="480" width="216" alt="Main Settings">
+	</td>
+	<td>
+		<img src="./pics/pump_info.jpg", height="480", width="216", alt="Pump Info">
+	</td>
+
+
+	<td> 
+		<blockquote><blockquote>
+			
+			
+					<b>Settings and Actions</b>
+		<li>Opening the Settings page gives you a list of possible actions. You can access this page from the T:MOBI Overview. All the instructions in this section will start from this page.</li>
+		<br>
+		
+		<b>Starting or Stopping the Pump</b>
+		<li>To resume insulin, select "Start Insulin", then "Resume Insulin" on the dialogue popup</li>
+		<li>To stop insulin, select "Stop Insulin", then "Stop Insulin" on the dialogue popup</li>
+		<li>If there is TBR running, you can't stop insulin. If TBR is running extra option will be displayed. Clicking it will stop TBR.</li>
+		<br>
+
+		<b>Pump Info</b>
+
+TODO
+		
+
+		</blockquote></blockquote>		
+	</td>
+
+
+</tr>
+
+
+</table>
+
+<br><br>
+
+
+
+
+
+
+
+
 
 
 Starting / Stopping Pump / Cartridge - Cannula Actions (Solution with AAPS)
@@ -296,13 +506,6 @@ Starting / Stopping Pump / Cartridge - Cannula Actions (Solution with AAPS)
 	<td><img src="./pics/cartridge_actions.png", height="481", width="216", alt="Cartridge Actions"></td>
 	<td>
 		<blockquote><blockquote>
-		<b>Settings and Actions</b>
-		<li>Opening the Settings page gives you a list of possible actions. You can access this page from the T:MOBI Overview. All the instructions in this section will start from this page.</li>
-		<br>
-		<b>Starting or Stopping the Pump</b>
-		<li>To resume insulin, select "Start Insulin", then "Resume Insulin" on the dialogue popup</li>
-		<li>To stop insulin, select "Stop Insulin", then "Stop Insulin" on the dialogue popup</li>
-		<br>
 		<b>Changing Cartridge</b>
 		<li>Select "Cartridge/Cannula Setup"</li>
 		<li>Select "Change Cartridge", then "Begin Change Cartridge" on the dialogue popup</li>
@@ -324,6 +527,7 @@ Starting / Stopping Pump / Cartridge - Cannula Actions (Solution with AAPS)
 		<br>
 		<b>Site Reminder</b>
 		<li>Coming soon...</li>
+		TODO
 
 		</blockquote></blockquote>
 	</td>
@@ -349,8 +553,7 @@ TODO: - New configuration options
       - UI - Data: - Events, History, Notitfication
       - UI - PumpInfo, Canula options ...
 
-      - History ???
-      - Indicator
+
 
 </pre>
 
@@ -380,6 +583,22 @@ TODO: - New configuration options
 
 
 </ul>
+
+
+
+<hr>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<h4>I forgot to charge up my pump and now it has powered down</h4>
+No panic. Just charge the pump for about 15 minutes or so and then bring pump out of sleep mode. Start AAPS and pump should be running. You will have to change the reservoir and then "Start Insulin". If there are any notifications you need to clear them first. 
+
+
+
+
+
+TODO
+
 
 
 </body>
