@@ -19,26 +19,24 @@
 <h1 id="t-mobi-documentation">Tandem t:mobi (documentation)</h1>
 
 <b>Version:</b>&nbsp;&nbsp; 0.7.x (Phase 4)<br>
-<b>Last updated:</b>&nbsp;&nbsp;17.12.2025<br><br>
+<b>Last updated:</b>&nbsp;&nbsp;December 17, 2025<br><br>
 
 
 <hr>
 
-<h2><blink>Beta Testing</blibnk></h2>
+<h2>Beta Testing</h2>
 
-While this implementation was already put into Beta phase, there are still few things that need to be done. All things that are missing are listed as feature requests and all bugs found will also apear there... You can find everything here: <a href="https://github.com/andyrozman/AAPS_Tandem_Testing/issues">issues</a><br><br>
+While this implementation was already put into Beta phase, there are still a few things that need to be done. All things that are missing are listed as feature requests and all bugs found will also appear there. You can find everything on <a href="https://github.com/andyrozman/AAPS_Tandem_Testing/issues">the AAPS_Tandem_testing repo's issues page</a>.<br><br>
 
-So if you find anything that doesn't work, please check there first, if you can't find it, post a message in our discord group, so that we can discuss if this is a bug or just how it works. If we discover something new, we will add it as bug. <br><br>
+If you find anything that doesn't work, please check there first. If you can't find it, post a message in our discord group, so that we can discuss if this is a bug or just how it works. If we discover something new, we will add it as bug. <br><br>
 
-Plan is to implement missing functionalities in January, while you are all testing what we currently have.<br><br>
+The current plan is to implement as much missing functionality as possible in January, while you are all testing what we currently have.<br><br>
 
-Please read documentation, before you start testing. You will have to go with option A for connection, but that is preffered way anyways.<br><br>
-
-In some cases you need to restart AAPS after you set your pump for first time.
+Please read this entire documentation page before you start testing. Note that in some cases you may need to restart AAPS after you set up your pump for first time.
 
 
-<br>
-<b>This documentation is stil just partial... Where information is missing is marked with TODO word.</b>
+<br><br>
+<b>This documentation is not yet complete. Missing documentation sections will be marked as <u>TODO</u>.</b>
 <br><br>
 
 
@@ -50,12 +48,12 @@ In some cases you need to restart AAPS after you set your pump for first time.
 <br>
 
 
-<b>Important: Please read this documentation carefully, so that you can see how mobi works and how this driver works, which will help you also with decision how to setup the pump. Mobi has some special functions and requirements, so sometime is might get tricky on how to use it.</b>
+<b>Important: Please read this documentation carefully, so that you can see how mobi works and how this driver works, which will help you also with the decision of how to set up the pump.</b>
 
 <br><br>
 
 
-<h4>Table of content</h4>
+<h4>Table of contents</h4>
 
 <aside id="toc"><nav class="toc">
 	<ol>
@@ -65,7 +63,7 @@ In some cases you need to restart AAPS after you set your pump for first time.
 			<li><a href="#b-using-only-aaps">B.) Using only AAPS</a></li>
 		</ol>
 		
-		<li><a href="#overview">Overview in T:MOBI tab</a></li>
+		<li><a href="#overview">Overview in MOBI tab</a></li>
 			
 		<li><a href="#configuration-options">Configuration options</a></li>
 			
@@ -99,51 +97,81 @@ In some cases you need to restart AAPS after you set your pump for first time.
 
 <h2 id="connection-setup">Connection setup</h2>
 
-While there is option to connect to pump directly from AAPS (B), I would like to remind you that t:mobi is pump without screen, and if something goes wrong, there is no way to fix the pump from AAPS. To solve serious problems with pump, you would either need offical app (on iPhone, there is still no app for Android) or controlX2. ControlX2 is small Android app (intended mainly for t:slim X2) which can monitor your pump, issue Bolus, TBR. Newer versions were extended with Mobi specific commands and requirements (change cartridge, fill cannula, etc), some of which we directly use in this driver, but what is important difference is, that it has ability to issue any supported command to pump directly, and ability to debug  problems. Installing controlX2 doesn't mean that there will be both applications running, it just means that if something goes wrong, we can shutdown (force close) AAPS and then start controlX2 (both apps can't run at the same time, because they both require exclusive access to pump.<br>
-Once pump is configured and software is running, connection to pump is 24/7, we never disconnect from pump.<br>
+<p>
+While there is an option currently to connect to the pump directly from AAPS (Option B below), I would like to remind you that the Mobi pump does not have a screen, and if something goes wrong, there are limited options for fixing the pump from within AAPS. To solve serious problems with pump, you would either need the offical app (on iPhone, there is still no app for Android) or controlX2. <a href="https://github.com/jwoglom/controlX2" target="_blank">ControlX2</a> is a small Android app which can monitor your pump, issue Bolus, TBR, and modify (nearly) all pump settings. Newer versions were extended with Mobi specific commands and requirements (change cartridge, fill cannula, etc), some of which we directly use in this driver.
+</p>
+
+<p>
+Importantly, ControlX2 is designed to issue any supported command to the pump directly, with more ability to debug problems. Installing controlX2 doesn't mean keeping both applications running (in fact, trying to use both at once will likely confuse the pump and cause disconnections), it just means that if something goes wrong, we can shutdown (force close) AAPS and then start controlX2. Both apps can't run at the same time, because they both require exclusive access to the pump.</p>
+<br>
+Once the pump is configured and AAPS is running, AAPS' connection to the pump is 24/7, we never disconnect from the pump. This mirrors how the official app works and allows us to receive pump notifications without constant polling. The Mobi uses Bluetooth LE and is designed for this behavior.<br><br>
 
 <h3 id="a-using-shared-connection">A.) Using shared connection with controlX2</h3>
 
 <p>
-Good. So you decided to go with with shared option. Visit <a href="https://github.com/jwoglom/controlX2/releases">https://github.com/jwoglom/controlX2/releases</a> and search for latest version (1.0.0-20251102 at time of writing this documentation). This is currently only modified version that supports shared connection with AAPS. Install app on the same phone where you will be using AAPS. Pair your t:mobi with app and get it running. T:mobi pairing on Android is little temperamental, so you might need several tries. To pair the pump you need to put it on the pad, and then press the button for 3 seconds, which will put it into pairing mode. After your pump is succesfully communicating with controlX2, you need to go into Setings, then Debug and then "View Pump State". There will be json with all connection data, use option &quot;Save to Clipboard&quot;. Force close the app and then start AAPS.
+Good. So you decided to go with with shared option. Visit <a href="https://github.com/jwoglom/controlX2/releases">https://github.com/jwoglom/controlX2/releases</a> and search for latest version (1.0.0-20251102 at time of writing this documentation). This is currently only modified version that supports shared connection with AAPS.
+</p>
+
+<p>Install ControlX2 on the same phone where you will be using AAPS. Pair your Mobi pump with the app and get it running. The pairing process is a little temperamental as it is not designed to be done very frequently - it may take several tries. To pair the pump you need to put it on the charging pad (any Qi compatible wireless charger works), and wait for the white LED lights to pulse indicating that the pump has begun charging. If any alerts are triggering, you will see red blinking lights and need to wait until they stop before continuing.
+</p>
+
+<p>Once the Mobi is charging, pick it up and remove it from the charger. Wait for about 2-3 seconds, and then press the pump button twice in sequence to enter pairing mode. You may have to do this slowly and very attenuated for it to take effect: wait 2-3 seconds, press for a quarter second, release, wait half a second, then press again. When you have completed the process the pump will vibrate and beep twice.
+</p>
+
+<p>After your pump is succesfully communicating with controlX2, you need to go into Setings, then Debug and then "View Pump State". There will be json with all connection data, use option &quot;Save to Clipboard&quot;. Force close the app and then start AAPS.
 </p>
 <p>
-In AAPS select t:mobi driver and go to configuration. Enable &quot;Use Shared Connection&quot;, which will make &quot;Shared Connection Data&quot; visible, click on the option and copy the value you got from controlX2 and exit configuration. AAPS should now be able to connect to your pump. If for some reason doesn&#39;t work, &quot;Force Close&quot; AAPS and restart. Driver should be able to connect to pump now.</p>
+In AAPS, select Tandem Mobi as the pump and go to Configuration. Enable &quot;Use Shared Connection&quot;, which will make &quot;Shared Connection Data&quot; visible. Click on that option and copy the value you got from controlX2 and exit the configuration screen. AAPS should now be able to connect to your pump. If for some reason this doesn&#39;t work, &quot;Force Close&quot; AAPS and restart. The driver should be able to connect to the pump now.</p>
 
 
 
 
 <h3 id="b-using-only-aaps">B.) Using only AAPS</h3>
-<p>This will be added in Phase 4, when all needed methods are implemented and UI options are available.</p>
-<b>TODO - Missing functionality</b><br>
+<p>
+	<b>This is currently being added and is included on the latest <code>andy_tandem</code> branch, but isn't considered fully ready yet.</b> To access, you will use the "Pair Pump" button on the Mobi screen within AAPS.
+</p>
+<br>
+
+
 
 
 <br>
 <hr>
 <br>
 
-<h2 id="overview">Overview in T:MOBI tab</h2>
+<h2 id="overview">Overview of the Tandem Mobi tab</h2>
 
 <table>
 <tr>
 	<td>
 		<img src="./pics/overview_v2.jpg" height="480" width="216" alt="Overview">
 	</td>
-	<td><blockquote><blockquote>Once you have Mobi configured, tab T:MOBI becomes available, displaying all important information. Information is divided in 6 different sections.<br><br>
+	<td>Once you have Mobi configured, the "Tandem Mobi" tab becomes available, displaying all important information. Information is divided in 6 different sections.<br><br>
 	
-	<b>Section 1:</b> Information about your pump: Firmware, Serial Number and BT address. If you have configured display of driver version, then version of driver will also be displayed (when reporting bugs in driver, this information needs to be in report. It helps us pinpoint the problem, and we can also determine if this error was already fixed). <br><br>
+	<b>Section 1:</b> Information about your pump: Firmware, Serial Number and BT address. If you have configured display of the driver version, then the version of the AAPS Mobi driver will also be displayed (when reporting bugs in the driver, this information needs to be in the report. It helps us pinpoint the problem, and we can also determine if this error was already fixed). <br><br>
 	
-	<b>Section 2:</b> : Displays State of pump connection, this shows Connected if pump is connected, or if command is running it will show name of command running and also the Queue of commands (queue hides when empty). <br><br>
+	<b>Section 2:</b>: Displays the state of pump connection, this shows Connected if pump is connected, or if a command is running it will show the name of the command running as well as the Queue of commands (queue hides when empty). <br><br>
 	
-	<b>Section 3:</b> Battery status, reservoir level and when last command was processed. <br><br>
+	<b>Section 3:</b> Battery status, reservoir level and when the last command was processed. <br><br>
 	
 	<b>Section 4:</b> Displays last bolus, base basal rate and if temp basal is currently running (and with what values). <br><br>
 	
-	<b>Section 5:</b> Displays driver errors (mostly this would be filled if there is problem with configuration or if for some reason we lost connection with the pump). At the moment driver is unable to reconnect automatically with pump (auto reconnect will be added in Phase 3). If you loose connection with pump please restart AAPS (with Force Stop)). If there are no error, this section is not visible. TODO<br><br>
+	<b>Section 5:</b> Displays driver errors (mostly this would be filled if there is problem with configuration or if for some reason we lost connection with the pump). At the moment the driver is unable to reconnect automatically with pump in all circumstances (auto reconnect will be added in Phase 3). If you loose connection with the pump, please restart AAPS (with Force Stop). If there are no errors, this section is not visible. TODO<br><br>
 	
-	<b>Section 6:</b> Indicator for Pump Data Status. This shows 3 labels NOTIFICATION, EVENTS and HISTORY. If they are in natural color (depending on theme) then there is nothing to see, but if options colors, then there are new items available (red for new notifications, green for new events and blue for new history items). <br><br>
+	<b>Section 6:</b> Indicator for Pump Data Status. This shows 3 labels:
+	<ul>
+		<li>NOTIFICATION - displays pump notifications sent from the pump (e.g. low insulin, cartridge errors, etc)</li>
+		<li>EVENTS - displays events which have occurred as tracked by AAPS</li>
+		<li>HISTORY - displays all commands sent to the pump from AAPS</li>
+	</ul>
+	<br>
+	If these options are in a natural color (depending on theme) then there is nothing to see, but if colors are present, that indicates there are new items available for display (red for new notifications, green for new events and blue for new history items). <br><br>
+
+	The notification indicator is especially important when setting up a pump for the first time, or changing the cartridge. The Mobi will reject attempts to change cartridge or fill tubing when you have not acknowledged notifications about insulin being suspended.
+
+	<br><br>
 	
-	<b>Under sections:</b>You can see picture of t:mobi and under it there are 3 buttons. What buttons do you can see in section "Actions (buttons on lower part of overview)"
+	<b>Lower sections:</b>You can see picture of the Mobi, and under it there are 3 buttons. These are described in the "Actions (buttons on lower part of overview)" section.
 	
 	
 	</blockquote></blockquote>
@@ -172,24 +200,24 @@ In AAPS select t:mobi driver and go to configuration. Enable &quot;Use Shared Co
 	<td> 
 		<blockquote><blockquote>
 		
-		<b>Use Shared connection: </b> See previous section (<i>Connection setup</i>) how this works. But in short we can either use shared connection for which we also need to populate <b>Shared connection data</b>, or we can use just AAPS connection, for which we need to click
-		on <b>Tandem Pump Pairing</b> which will lead us through pairing process. Options become visible depending on the switch...<br><br>
+		<b>Use Shared connection: </b> See the previous section (<i>Connection setup</i>) how this works. But in short, we can either use shared connection for which we also need to populate <b>Shared connection data</b>, or we can use just AAPS connection, for which we need to click
+		on <b>Tandem Pump Pairing</b> which will lead us through the pairing process. Options become visible depending on which is selected.<br><br>
 		 
-		<b>Max Bolus on Pump:</b>&nbsp;&nbsp;This sets what is max amount of bolus allowed. This is not limited to the current hour, its just max amount you can use at any time, value should be beween 1 and 25 (if you need bigger dose, you can just dose twice).<br><br>
+		<b>Max Bolus on Pump:</b>&nbsp;&nbsp;This sets the maximum unit amount which can be used when giving a bolus. This is not limited to the current hour, it is just the max amount you can send at once in a single request. The value should be beween 1 and 25 units. (If you need bigger dose, you can just dose twice, waiting until the first dose is finished to perform the second dose.)<br><br>
 		
-		<b>Max Basal on Pump:</b>&nbsp;&nbsp;This sets max amount of basal insulin person can receive in a hour. Valid values are 1 to 15. You can go with max value here, but if you want to limit this the formula is to look at your highest hourly value and then multiply it 2.5 (250% is max TBR possible).<br><br>
+		<b>Max Basal on Pump:</b>&nbsp;&nbsp;This sets the max amount of basal insulin the pump can be configured to deliver in a hour. Valid values are 1u/hr to 15u/hr. You can go with the max value here, but if you want to limit this the formula is to look at your highest hourly basal value multiplied by 2.5 (250% is the max TBR possible supported on Mobi pumps. For instance, if your base basal rate is 1u/hr, the pump will NOT allow temp rates above 2.5u/hr).<br><br>
 		
-		<b>Display driver version:</b>&nbsp;&nbsp;Display driver version on t:MOBI tab (in Section 1, 4th line if enabled - see Overview for more info)<br><br>
+		<b>Display driver version:</b>&nbsp;&nbsp;Displays the driver version on t:MOBI tab (in Section 1, 4th line if enabled - see Overview for more info)<br><br>
 		
-		<b>Which Pump Events to Show?</b>&nbsp;&nbsp;We can either show all events, or just that ones that are AAPS Relevant.<br><br>
+		<b>Which Pump Events to Show?</b>&nbsp;&nbsp;We can either show all events, or just that ones that are AAPS Relevant. Note that some Tandem reported events are of minimal relevance to AAPS.<br><br>
 		
 		<b>How many Pump Events to Show?</b>&nbsp;&nbsp;We can limit how many Pump Events will be shown (15 items, Last 3/6/12/24 hours)<br><br>
 
-		<b>Show Cargo/Payload of Unknown Logs</b>&nbsp;&nbsp;If we select display of Unknown Logs, we can either display cargo/payload of Log entry, or not (cargo would be only in hexidecimal form each bit displayed).<br><br>
+		<b>Show Cargo/Payload of Unknown Logs</b>&nbsp;&nbsp;If we select display of Unknown Logs, we can either display cargo/payload of Log entry, or not (cargo would be only in hexidecimal form of each bit displayed).<br><br>
 		
-		<b>Auto confirm Low Basal Delivery Alert</b>&nbsp;&nbsp;If low basal value is delivered (less than 50% ??), pump gives us special alerts. If enabled, such Alarms are automatically confirmed.<br><br>
+		<b>Auto confirm Low Basal Delivery Alert</b>&nbsp;&nbsp;If low basal value is delivered (less than 50% ??), the pump gives us a special alert. If enabled, such Alarms are automatically confirmed.<br><br>
 
-		<b>Quick Bolus</b>&nbsp;&nbsp;Button on pump can be configured to deliver Quick bolus. This option configures how much bolus can be delivered (0.5U, 1U, 2U, 5U, or cover for 2g, 5g, 10g, 15g of carbs).<br><br>
+		<b>Quick Bolus</b>&nbsp;&nbsp;The button on the pump can be configured to deliver Quick boluses. This option configures how much bolus can be delivered per press (0.5U, 1U, 2U, 5U, or cover for 2g, 5g, 10g, 15g of carbs). For example, if you configure this as 0.5U, then when triggering a quick bolus by holding down the pump button until it vibrates or beeps, each button press will increment the bolus amount by 0.5U (e.g., pressing 4 times will deliver 2U). You need to confirm the quick bolus by holding down the pump button a second time after the pump confirms the amount with the same number of beeps or vibrations.<br><br>
 
 		</blockquote></blockquote>		
 	</td>
@@ -214,7 +242,7 @@ In AAPS select t:mobi driver and go to configuration. Enable &quot;Use Shared Co
 
 <h3 id="mobi-details-startup-sequence">Startup sequence</h3>
 
-Everytime you run AAPS and driver connects to the pump, there will be sequence of commands executed, that will retrive initial data and see if your pump is running ok and what the state it. This process can take up to 2 minutes, depending on how fast your phone is, how good BT connection is and if this is one of first times running the driver. On each start driver also checks if you have enabled internal mobi loop and disables it (official tandem loop and AAPS loop can't run at the same time).
+Everytime you run AAPS and the driver connects to the pump, there will be a sequence of commands executed which will retrive initial data and see if your pump is running ok and what state it is in. This process can take up to 2 minutes, depending on how fast your phone is, how good the BT connection is and if this is one of your first times running the driver. On each start the driver also checks if you have enabled Control-IQ (aka, the built in partial-closed-loop algorithm on the Tandem Mobi) and disables it as a safety measure. <b>For safety reasons Control-IQ and AAPS should not run at the same time. To switch back to Control-IQ, disable AndroidAPS and use the ControlX2 app to re-enable Control-IQ.</b>
 <br>
 <br>
 List of commands that will be executed is:
@@ -230,7 +258,7 @@ List of commands that will be executed is:
 <li>Get Basal Profile</li>
 
 <br>
-During startup sequence buttons are disabled.
+During the startup sequence, the buttons in the UI are disabled.
 
 
 <br>
@@ -238,10 +266,27 @@ During startup sequence buttons are disabled.
 
 
 <h3 id="mobi-details-pump-notifications">(Pump) Notifications</h3>
-Since pump doesn't have screen it must show notifications differently. This is done through beeps and/or vibrations and blinking of lights beside button. Also when notification happen, it can send event (not always) and/or certain alarm/alert setting is triggered. Driver reads this information every 5 minutes and if there are any notification, indicator is colored (see Overview section). When this happens you can click Data button and then select Notifications option, which will display all notifications. If you press on notification, it will be dismissed on pump, and pump will stop beeping/vibrating every few minutes.<br><br>
 
-Most of notifications (alerts) are just of informational value, but Alarms and some other notifications will prevent pump commands. So for example if you are in Alarm state (and you don't confirm the Alarm), you won't be able to Stop/Start the pump or do any Canula/Reservoir actions. So confirming notification on Mobi is important step.
+<p>Terminology notes: <b>notifications</b> refer to any of these four types of messages. To view a list of which types of notifications correspond to each category, click the referenced link to view the enum values in source control:</p>
 
+	<ul>
+		<li><b><a href="https://jwoglom.github.io/pumpX2/javadoc/messages/com/jwoglom/pumpx2/pump/messages/response/currentStatus/AlertStatusResponse.AlertResponseType.html">Pump Alerts</a></b> (least severe)</li>
+		<li><b><a href="https://jwoglom.github.io/pumpX2/javadoc/messages/com/jwoglom/pumpx2/pump/messages/response/currentStatus/CGMAlertStatusResponse.CGMAlert.html">CGM Alerts</a></b> - only relevant when the Tandem Mobi itself is configured to connect directly to a CGM - <i>this is not currently supported in AndroidAPS</i></li>
+		<li><b><a href="https://jwoglom.github.io/pumpX2/javadoc/messages/com/jwoglom/pumpx2/pump/messages/response/currentStatus/AlarmStatusResponse.AlarmResponseType.html">Alarms</a></b></li>
+		<li><b>Malfunctions (most severe)</b> - Some correspond directly with an alarm, but most are undocumented. The most severe malfunctions require you to either reset your pump or get it replaced by Tandem (e.g., hardware failure). NOTE: The PumpX2 library currently displays some malfunction codes which the official Tandem Mobi app does not display as malfunctions. Some malfunctions may disappear when acknowledging related alarms which appear in the Notifications view. Please don't contact Tandem about malfunction codes which display in AndroidAPS at this time due to this issue.</li>
+	</ul>
+
+<p>Most notifications result in some kind of <b>event</b> being created. In the pump communication protocol, an event is a generic way for the pump to tell the connected phone that something happened requiring it to request more information and potentially alert the user. <i>For the most part,</i> you can think of notifications, events, alarms, and alerts as the same thing.</p>
+
+<p>Since the pump doesn't have a screen, it must show notifications differently. This is done through beeps and/or vibrations and blinking of lights beside the button. When notifications occur, the pump also sends alarms or alerts over Bluetooth to ControlX2 or AndroidAPS, and in some cases an "event" is created. The driver reads this information explicitly every 5 minutes and if there are any notifications, the indicator is colored on the driver UI (see Overview section). In most situations the pump will also send an event that a notification occurred over the Bluetooth connection, and the pump driver will automatically request the relevant information about the event without needing to wait for the 5 minute cadence.</p>
+
+<p>When notifications or events occur, you can click the Data button and then select the Notifications option, OR click the Notifications text above the pump icon, which will display all notifications. If you press on a notification which is listed, it will be dismissed on the pump, and the pump will stop beeping/vibrating every few minutes.</p>
+
+<p>
+Most of the notifications (alerts) are just of informational value, but Alarms and some other notifications will prevent pump commands. So for example if you are in Alarm state (and you don't confirm the Alarm), you won't be able to Stop/Start the pump or do any Cannula/Reservoir actions. So confirming notifications is an important step. Note that these alarms are not only for unintended problems, but also for things like notifying the user that insulin delivery has been disabled for a long time.
+</p>
+
+To view the types of alerts and alarms which can be triggered, see the linked documentation above.
 
 <br>
 <br>
@@ -249,7 +294,7 @@ Most of notifications (alerts) are just of informational value, but Alarms and s
 
 <h3 id="mobi-details-events">Events</h3>
 
-AAPS is connected to pump 24/7. Main reason for this are events (which are at this moment not working correctly, but issue is being investigated - on pumpX2 library level), which give real-time warnings, notifications and information from pump.
+AAPS is connected to the pump 24/7. The main reason for this are events (which are at this moment not always working correctly, but issue is being investigated - on pumpX2 library level), which give real-time warnings, notifications and information from the pump. Events just serve as a way to tell the connected phone that it should trigger requests for more information from the pump for which the user may need to be notified. 
 
 
 <br>
@@ -258,16 +303,19 @@ AAPS is connected to pump 24/7. Main reason for this are events (which are at th
 
 <h3 id="mobi-details-pump-refresh">Refresh data in driver</h3>
 
-To keep driver working correctly, we have to refresh data regularly, so this are refresh operations.
+To keep the driver working correctly, we have to refresh data regularly, aka refresh opereations.
 
 <li><b>Pump Status, Alerts, Alarms, History</b> - This is refreshed every 5 minutes</li>
 <li><b>Remaining insulin</b> - Refreshed every hour (when over 50%), every half hour (when over 20%) or every 15 minutes when lower than 20%.</li>
 <li><b>Battery Level</b> - Refreshed every hour (when over 30%), every half hour (when over 20%) or every 15 minutes when lower than 20%.</li>
 <br>
+<br>
+
+Note that when events sent from the pump to the phone (rather than us requesting information on a regular cadence) are working correctly, we will be able to fetch this information more regularly when the pump tells us that, e.g., the insulin or battery level has decreased.
 
 
 <h3 id="mobi-details-bolus">Bolus</h3>
-Mobi driver supports both standard and SMB bolus types. When bolus is runing you will see dialog, but please note that progress of delivery is just an estimate (mobi delivery doesn't track how much of bolus was actualy delivered, we estimate the value with amount of time bolus was delivering), which means that bolus might finish before progress bar reached the end, or end is reached and bolus is still delivering...<br>
+The Mobi driver supports both standard and SMB bolus types. When a bolus is running you will see a dialog, but please note that progress of delivery is just an estimate (Mobi delivery doesn't track how much of bolus was actualy delivered, we estimate the value with amount of time bolus was delivering), which means that the bolus might finish before the progress bar reached the end, or end may be reached and the bolus is still delivering. The underlying PumpX2 library gives some semantics for which we can detect when a bolus has finished, but this isn't fully implemented in AndroidAPS yet.<br>
 
 
 <br>
@@ -280,7 +328,7 @@ Mobi driver supports both standard and SMB bolus types. When bolus is runing you
 
 
 <h3 id="actions-refresh">Refresh button</h3>
-Refresh button is intended, to forcibly refresh all the data (it would be the sama data retrieval when we start the AAPS) 
+Refresh button triggers a forced refresh of all the data (it would be the same data retrieval which occurs when we start AAPS) 
 
 <br><br>
 
@@ -297,7 +345,7 @@ Refresh button is intended, to forcibly refresh all the data (it would be the sa
 
 	<td> 
 		<blockquote><blockquote>
-			This is the main window, from where you can access all 3 options. Events and Pump History are of informational value only, while Notifications can be (and must be confirmed).
+			This is the main window from where you can access all 3 options. Events and Pump History are of informational value only, while Notifications can and must be confirmed/dismissed by the user.
 			<br>Each option will be explained in detail in following sections (and some background is also provided in some other sections, as it will be indicated in each of separate screen):<br>
 			<ul>
 			<li>Notifications</li>
@@ -332,7 +380,7 @@ Refresh button is intended, to forcibly refresh all the data (it would be the sa
 	<td> 
 		<blockquote><blockquote>
 
-When clicking button Data, we get dialog opened where there are 3 options:
+When clicking the Data data, a dialog opens where there are 3 options:
 	- Notifications
 	- Events
 	- History
@@ -375,7 +423,7 @@ When clicking button Data, we get dialog opened where there are 3 options:
 	<td> 
 		<blockquote><blockquote>
 
-When clicking button Data, we get dialog opened where there are 3 options:
+When clicking the Data button, a dialog opens with 3 options:
 	- Notifications
 	- Events
 	- History
@@ -415,15 +463,19 @@ When clicking button Data, we get dialog opened where there are 3 options:
 	<td> 
 		<blockquote><blockquote>
 
-Pump history is retrieved every 5 minutes, together with Pump Status check. History is always read from latest to oldest. We retrieve maximal 5 chunks of history data, each containing 200 records. Once we reach 1.5 months, we don't retrive any more historical data. <br><br>
+Pump history is retrieved every 5 minutes, together with the Pump Status check. History is always read from latest to oldest. We retrieve at max 5 chunks of history data, each containing 200 records. Once we reach 1.5 months, we don't retrive any more historical data. <br><br>
 
-So in the begining history will read lot of items, but afterwards, only new items will be read. Historical data is also cleaned from database, so we always have just last 1.5 months, so database won't grow needlesly...<br><br>
+So in the beginning, history will read lot of items, but afterwards, only new items will be read. Historical data is also cleaned from the database, so we always have just last 1.5 months, so the database won't grow needlessly.<br><br>
 
-History is not parsed, we just display whatever history fields we have recognized by pumpX2 library. In some cases we do some minor parsing of certain recognizable fields, but not many. This might be extended in future, but history is of information value only and is not used by driver. <br><br>
+History is not parsed, we just display whatever history fields we have recognized by pumpX2 library. In some cases we do some minor parsing of certain recognizable fields, but not many. This might be extended in future, but history is of information value only and is not used by driver. It can, however, be used as part of validation testing as it is a durable log stored by the pump of operations performed which we can check against AndroidAPS' log of actions it has performed.<br><br>
 
 You can see details of item, by clicking/pressing on them.<br><br>
 
 Items can be filtered by Group, default option, displays all item, except Unknown items.
+
+<br><br>
+
+To see a list of known History Logs, <a href="https://jwoglom.github.io/pumpX2/javadoc/messages/com/jwoglom/pumpx2/pump/messages/response/historyLog/package-summary.html">see this reference in the PumpX2 communication library</a>. Note that while the names of some events are known, the decoding of all fields within them is not always known.
 		
 
 		</blockquote></blockquote>		
@@ -463,17 +515,17 @@ Items can be filtered by Group, default option, displays all item, except Unknow
 			
 			
 					<b>Settings and Actions</b>
-		<li>Opening the Settings page gives you a list of possible actions. You can access this page from the T:MOBI Overview. All the instructions in this section will start from this page.</li>
+		<li>Opening the Settings page gives you a list of possible actions. You can access this page from the Tandem Mobi Overview. All the instructions in this section will start from this page.</li>
 		<br>
 		
 		<b>Starting or Stopping the Pump</b>
-		<li>To resume insulin, select "Start Insulin", then "Resume Insulin" on the dialogue popup</li>
-		<li>To stop insulin, select "Stop Insulin", then "Stop Insulin" on the dialogue popup</li>
-		<li>If there is TBR running, you can't stop insulin. If TBR is running extra option will be displayed. Clicking it will stop TBR.</li>
+		<li>To resume insulin, select "Start Insulin", then "Resume Insulin" on the dialog popup</li>
+		<li>To stop insulin, select "Stop Insulin", then "Stop Insulin" on the dialog popup</li>
+		<li>If there is a TBR running, you can't stop insulin. If a TBR is running an extra option will be displayed. Clicking it will stop TBR.</li>
 		<br>
 
 		<b>Pump Info</b><br>
-		This window just displays basic information about pump. This is mostly technical information, which might be needed if you had to contact Tandem support about a problem. Please don't mention that you are using AAPS or else they might be less than helpful... While using AAPS is not against the rules, it is frowned upon (they want you to use their original software - which is not existent (on Android) at the time of writing of this document).
+		This window just displays basic information about the pump. This is mostly technical information, which might be needed if you had to contact Tandem support about a problem. Please don't mention that you are using AndroidAPS or ControlX2 as they will have no idea what you are talking about and might be less than helpful. While using AAPS should not explicitly void your warranty, it is frowned upon (they want you to use their original software - which is not existent (on Android) at the time of writing of this document).
 
 
 		</blockquote></blockquote>		
@@ -590,7 +642,10 @@ TODO: - New configuration options
 <h2 id="troubleshooting">Troubleshooting</h2>
 
 <h4>I forgot to charge up my pump and now it has powered down</h4>
-No panic. Just charge the pump for about 15 minutes or so and then bring pump out of sleep mode. Start AAPS and pump should be running. You will have to change the reservoir and then "Start Insulin". If there are any notifications you need to clear them first. <br><br>
+No panic. Just charge the pump for about 15 minutes or so and then bring pump out of sleep mode. Start AAPS and pump should be running. You will have to acknowledge a notification that the pump has shut down, change the reservoir, and then "Start Insulin". Any notifications will need to be cleared before changing cartridge, filling tubing/cannula, or resuming insulin. <br><br>
+
+<h4>I am receiving a Malfunction code</h4>
+The PumpX2 library currently displays some malfunction codes which the official Tandem Mobi app does not display as malfunctions. The official app appears to allow-list specific malfunction codes reported by the pump as being "real" malfunctions necessitating you to call Tandem for support. Some malfunctions may disappear when acknowledging related alarms which appear in the Notifications view. As a result, <b>please do not contact Tandem about malfunction codes which display in AndroidAPS</b>. If you suspect the pump hardware might be faulty, please switch back to the official Tandem Mobi iOS app (or Android app when it is released) to confirm whether the malfunction code is real or not.
 
 <br>
 This section will be extended when we find areas that need troubleshooting.
