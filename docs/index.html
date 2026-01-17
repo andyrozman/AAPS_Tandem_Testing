@@ -19,7 +19,7 @@
 <h1 id="t-mobi-documentation">Tandem t:mobi (documentation)</h1>
 
 <b>Version:</b>&nbsp;&nbsp; 0.7.x (Phase 4)<br>
-<b>Last updated:</b>&nbsp;&nbsp;December 17, 2025<br><br>
+<b>Last updated:</b>&nbsp;&nbsp;January 14, 2026<br><br>
 
 
 <hr>
@@ -57,6 +57,7 @@ Please read this entire documentation page before you start testing. Note that i
 
 <aside id="toc"><nav class="toc">
 	<ol>
+		<li><a href="#powering-on-mobi">Powering on the Mobi</a></li>
 		<li><a href="#connection-setup">Connection setup</a></li>
 		<ol>
 			<li><a href="#a-using-shared-connection">A.) Using shared connection with controlX2</a></li>
@@ -94,48 +95,126 @@ Please read this entire documentation page before you start testing. Note that i
 
 <br><br>
 
+<h2 id="powering-on-mobi">Powering on the Mobi</h2>
+
+<p>
+If you have a brand new Mobi, or need to turn it on and get it out of "deep sleep" mode:
+</p>
+
+<ol>
+	<li>Plug in the provided Mobi charging pad or a different Qi charging pad</li>
+	<li>Place the Mobi on the charging pad</li>
+	<li>If no lights appear, hold down the pump button for about 15 seconds until the lights begin to flash.</li>
+	<li>When the pump has turned on, it should flash red LED lights and make audible beep noises.</li>
+</ol>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/nc2VPbao0fs?si=O1J9_QWh5SiorxDO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 
 <h2 id="connection-setup">Connection setup</h2>
 
 <p>
-While there is an option currently to connect to the pump directly from AAPS (Option B below), I would like to remind you that the Mobi pump does not have a screen, and if something goes wrong, there are limited options for fixing the pump from within AAPS. To solve serious problems with pump, you would either need the offical app (on iPhone, there is still no app for Android) or controlX2. <a href="https://github.com/jwoglom/controlX2" target="_blank">ControlX2</a> is a small Android app which can monitor your pump, issue Bolus, TBR, and modify (nearly) all pump settings. Newer versions were extended with Mobi specific commands and requirements (change cartridge, fill cannula, etc), some of which we directly use in this driver.
+While there is an option currently to connect to the pump directly from AAPS (Option B below), I would like to remind you that the Mobi pump does not have a screen, and if something goes wrong, there are limited options for fixing the pump from within AAPS. To solve serious problems with the pump, you would either need the offical app (the "Tandem Mobi" app for iPhone, Android version expected by the end of Q1 2026) or ControlX2 in tandem to AAPS itself. 
 </p>
 
 <p>
-Importantly, ControlX2 is designed to issue any supported command to the pump directly, with more ability to debug problems. Installing controlX2 doesn't mean keeping both applications running (in fact, trying to use both at once will likely confuse the pump and cause disconnections), it just means that if something goes wrong, we can shutdown (force close) AAPS and then start controlX2. Both apps can't run at the same time, because they both require exclusive access to the pump.</p>
-<br>
-Once the pump is configured and AAPS is running, AAPS' connection to the pump is 24/7, we never disconnect from the pump. This mirrors how the official app works and allows us to receive pump notifications without constant polling. The Mobi uses Bluetooth LE and is designed for this behavior.<br><br>
+Re-pairing the Mobi pump requires a wireless charger. <b>While testing Mobi with AAPS, you should have a wireless charger available at all times in case you need to re-pair, switch from being paired via AndroidAPS to the official Mobi app, or switch phones.</b> You can use any Qi compatible wireless charger, you do not need to exclusively use the "official" Tandem wireless charging pad. Note that while MagSafe chargers do work, you should avoid bringing the pump cartridge area into contact with the magnets to avoid potential damage to the piston.
+</p>
+
+<p><a href="https://github.com/jwoglom/controlX2" target="_blank">ControlX2</a> is a small, open-source Android app created by @jwoglom, one of the co-authors of this integration, which can monitor your pump, issue Bolus, TBR, and modify (nearly) all pump settings. Newer versions were extended with Mobi specific commands and requirements (change cartridge, fill cannula, etc), some of which we directly use in this driver.
+</p>
+
+<p>
+Importantly, ControlX2 is designed to issue any supported command to the pump directly, with more ability to debug problems. Installing ControlX2 doesn't mean keeping both applications running (in fact, trying to use both at once will likely confuse the pump and cause disconnections), it just means that if something goes wrong, we can shutdown (force close) AAPS and then start controlX2 to troubleshoot the pump. Both apps can't run at the same time, because they both require exclusive access to the pump at this time.</p>
+
+<p>
+Once the pump is configured and AAPS is running, <b>the AAPS connection to the Mobi is 24/7</b>: we never disconnect from the pump. This mirrors how the official app works and the Mobi is designed for this behavior with Bluetooth Low-Energy.
+</p>
 
 <h3 id="a-using-shared-connection">A.) Using shared connection with controlX2</h3>
 
 <p>
-Good. So you decided to go with with shared option. Visit <a href="https://github.com/jwoglom/controlX2/releases">https://github.com/jwoglom/controlX2/releases</a> and search for latest version (1.0.0-20251102 at time of writing this documentation). This is currently only modified version that supports shared connection with AAPS.
+If connecting with ControlX2, start by first setting it up on your device. Install the latest available release at <a href="https://github.com/jwoglom/controlX2/releases">https://github.com/jwoglom/controlX2/releases</a> (1.0.0-20251224 at time of writing this documentation).
 </p>
 
-<p>Install ControlX2 on the same phone where you will be using AAPS. Pair your Mobi pump with the app and get it running. The pairing process is a little temperamental as it is not designed to be done very frequently - it may take several tries. To pair the pump you need to put it on the charging pad (any Qi compatible wireless charger works), and wait for the white LED lights to pulse indicating that the pump has begun charging. If any alerts are triggering, you will see red blinking lights and need to wait until they stop before continuing.
+<p>Install ControlX2 on the same phone where you will be using AAPS, and launch it. Grant ControlX2 the permissions it requests so that it can scan for available pumps.</p>
+
+
+
+
+<p>The ControlX2 app should walk you through the Mobi pairing process. The pairing process is a little temperamental as it is not designed to be done very frequently - it may take several tries.</p>
+
+
+<p>To pair the pump you need to put it on the charging pad (any Qi compatible wireless charger works), and wait for the white LED lights to pulse indicating that the pump has begun charging. If any alerts are triggering, you will see red blinking lights and need to wait until they stop before continuing.
 </p>
 
 <p>Once the Mobi is charging, pick it up and remove it from the charger. Wait for about 2-3 seconds, and then press the pump button twice in sequence to enter pairing mode. You may have to do this slowly and very attenuated for it to take effect: wait 2-3 seconds, press for a quarter second, release, wait half a second, then press again. When you have completed the process the pump will vibrate and beep twice.
 </p>
 
-<p>After your pump is succesfully communicating with controlX2, you need to go into Setings, then Debug and then "View Pump State". There will be json with all connection data, use option &quot;Save to Clipboard&quot;. Force close the app and then start AAPS.
+
+<p><b>See the video below which shows an unsuccessful pair attempt where the pump does not beep or vibrate (first try), followed by a successful pair attempt where the pump beeps and vibrates (second try).</b></p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/u6wuikEiY8Y?si=EtaQcazjwF19vm9A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+
+
+<p><b>You may get stuck unable to find any pumps</b>, on a screen like the one below:</p>
+
+<img src="./pics/controlx2_pairing_stuck.png" height="480" />
+
+<br />
+
+<p>
+If this happens -- and you are sure that the Mobi is in pairing mode -- open the Android "App info" screen for ControlX2 and ensure that under the Permissions section, all of the listed permissions are marked under "allowed":
+</p>
+
+<table>
+	<tr>
+		<td>
+			<img src="./pics/controlx2_appinfo_1.png" height="480" />
+		</td>
+		<td>
+			<img src="./pics/controlx2_appinfo_2.png" height="480" />
+		</td>
+		<td>
+			<img src="./pics/controlx2_appinfo_3.png" height="480" />
+		</td>
+	</tr>
+</table>
+
+<p>
+	Some phones require the "Location" permission to be granted in order to search all Bluetooth devices. If you're having issues finding your pump, click "Location" and then grant permission either "when using the app" or "all of the time".
+</p>
+
+<p>After your pump is succesfully communicating with ControlX2, you need to go into Setings, then Debug and then "View Pump State". There will be a JSON string with all connection data to copy. Use the option &quot;Save to Clipboard&quot;. <b>Force close ControlX2</b> and then start AAPS.
 </p>
 <p>
-In AAPS, select Tandem Mobi as the pump and go to Configuration. Enable &quot;Use Shared Connection&quot;, which will make &quot;Shared Connection Data&quot; visible. Click on that option and copy the value you got from controlX2 and exit the configuration screen. AAPS should now be able to connect to your pump. If for some reason this doesn&#39;t work, &quot;Force Close&quot; AAPS and restart. The driver should be able to connect to the pump now.</p>
+In AAPS, select Tandem Mobi as the pump and go to Configuration. Enable &quot;Use Shared Connection&quot;, which will make &quot;Shared Connection Data&quot; visible. Click on that option and copy the JSON string you got from ControlX2 and exit the configuration screen. AAPS should now be able to connect to your pump. If for some reason this doesn&#39;t work immediately, &quot;Force Close&quot; AAPS and restart. The driver should be able to connect to the pump now.</p>
 
 
 
 
 <h3 id="b-using-only-aaps">B.) Using only AAPS</h3>
 <p>
-	<b>This is currently being added and is included on the latest <code>andy_tandem</code> branch, but isn't considered fully ready yet.</b> To access, you will use the "Pair Pump" button on the Mobi screen within AAPS.
+Please note that the AAPS native pairing option is a new addition to the Mobi pump driver and is not as reliable as the ControlX2 pairing mode yet.
 </p>
-<br>
+
+<p>
+To pair using only AAPS, select Tandem Mobi as your pump in the Config Builder or initial AAPS setup wizard.
+</p>
+
+<p>
+After enabling the Mobi pump driver, force quit and re-launch AAPS or restart your phone. Then go to the "TANDEM MOBI" AAPS tab and open the "..." menu to select "Tandem Mobi Preferences" followed by "Tandem Pump Connection Wizard."
+</p>
+
+<p>
+The pairing wizard should guide you through the necessary steps. See the tips listed above in case your Mobi is not detected, or see the video below.
+</p>
 
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/wsXEqxq8lGg?si=_dJgX8SW_7qELPxx" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 
-<br>
 <hr>
 <br>
 
@@ -344,9 +423,14 @@ Refresh button triggers a forced refresh of all the data (it would be the same d
 	</td>
 
 	<td> 
-		<blockquote><blockquote>
+		<p>
 			This is the main window from where you can access all 3 options. Events and Pump History are of informational value only, while Notifications can and must be confirmed/dismissed by the user.
-			<br>Each option will be explained in detail in following sections (and some background is also provided in some other sections, as it will be indicated in each of separate screen):<br>
+
+			</p>
+
+			<p>
+			Each option will be explained in detail in following sections (and some background is also provided in some other sections, as it will be indicated in each of separate screen):
+			</p>
 			<ul>
 			<li>Notifications</li>
 			<li>Events</li>
@@ -378,16 +462,21 @@ Refresh button triggers a forced refresh of all the data (it would be the same d
 	</td>
 
 	<td> 
-		<blockquote><blockquote>
+		<p>
+			Notifications are sent by the pump and are either an Alert, Alarm, or Malfunction. <a href="#mobi-details-pump-notifications">See the Pump Notifications section for more information on notifications.</a>
+		</p>	
 
-When clicking the Data data, a dialog opens where there are 3 options:
-	- Notifications
-	- Events
-	- History
-<b>TODO</b>
-		
+		<p>
+			The Mobi will regularly inform you when a notification is present that has not been acknowledged, with beeps/vibrates/LED lights on the device itself. To acknowledge a notification, click on the notification to dismiss it. The page should reload afterwards.
+		</p>
 
-		</blockquote></blockquote>		
+		<p>
+			When dismissing one notification, other active notifications may also be dismissed at the same time. For instance, the pump sends two distinct "Insulin Suspended" alarms -- one which is sent after 15 minutes of insulin delivery being suspended, and another which is sent when the first notification hasn't been acknowledged for some period of time. Dismissing one notification will dismiss the other -- so the page will reload after clicking on one of the two notifications and both will disappear. This is expected behavior (the duplicate notifications may be merged together in the UI in the future).
+		</p>
+
+		<p>
+			Note that <b>Malfunction</b> notifications may appear when an actual malfunction has not occurred. Under the hood, malfunctions and alarms are related, and the Tandem Mobi app effectively considers unrecognized alarms as being critical malfunctions (which it then notifies you to contact tech support to resolve). We are using heuristics to mimick how the official Tandem Mobi app determines whether an alarm is of a known type, or is a legitimate malfunction requiring support, but it is not 100% perfect, so if you see a Malfunction listed reach out in the AAPS Discord channel for the Tandem driver if you see a malfunction listed. If you do call Tandem tech support, don't tell them you are using AndroidAPS, ControlX2, or DIY apps since none of these are officially supported by Tandem.
+		</p>
 	</td>
 
 
@@ -398,16 +487,6 @@ When clicking the Data data, a dialog opens where there are 3 options:
 
 <br><br>
 
-
-
-
-
-
-
-
-
-
-<b>TODO</b><br>
 
 <h4 id="data-events">Events</h4>
 
@@ -421,16 +500,10 @@ When clicking the Data data, a dialog opens where there are 3 options:
 	</td>
 
 	<td> 
-		<blockquote><blockquote>
 
-When clicking the Data button, a dialog opens with 3 options:
-	- Notifications
-	- Events
-	- History
-
-		<b>TODO</b>
-
-		</blockquote></blockquote>		
+		<p>
+			The Events view shows a history of "events" which are small bits of information sent by the pump to the phone which denote that something on the pump's status has changed. When events are sent, there is no additional information about what has changed besides the type of data which has changed -- <a href="https://jwoglom.github.io/pumpX2/javadoc/messages/com/jwoglom/pumpx2/pump/messages/response/qualifyingEvent/QualifyingEvent.html#enum-constant-summary">it is a simple enum type (QualifyingEvent in the PumpX2 libraries)</a>. To look for more granular information, see the History tab.
+		</p>
 	</td>
 
 
@@ -439,13 +512,6 @@ When clicking the Data button, a dialog opens with 3 options:
 
 </table>
 
-<br><br>
-
-
-
-
-
-<b>TODO</b><br>
 
 <h4 id="data-history">History</h4>
 
@@ -465,13 +531,13 @@ When clicking the Data button, a dialog opens with 3 options:
 
 Pump history is retrieved every 5 minutes, together with the Pump Status check. History is always read from latest to oldest. We retrieve at max 5 chunks of history data, each containing 200 records. Once we reach 1.5 months, we don't retrive any more historical data. <br><br>
 
-So in the beginning, history will read lot of items, but afterwards, only new items will be read. Historical data is also cleaned from the database, so we always have just last 1.5 months, so the database won't grow needlessly.<br><br>
+So in the beginning, history will reada lot of items, but afterwards, only new items will be read. Historical data is also cleaned from the database, so we always have just last 1.5 months, so the database won't grow needlessly.<br><br>
 
-History is not parsed, we just display whatever history fields we have recognized by pumpX2 library. In some cases we do some minor parsing of certain recognizable fields, but not many. This might be extended in future, but history is of information value only and is not used by driver. It can, however, be used as part of validation testing as it is a durable log stored by the pump of operations performed which we can check against AndroidAPS' log of actions it has performed.<br><br>
+History is not parsed, we just display whatever history fields which are recognized by the PumpX2 library. In some cases we do some minor parsing of certain recognizable fields, but not many. This might be extended in future, but history is of information value only and is not used by driver. It can, however, be used as part of validation testing as it is a durable log stored by the pump of operations performed which we can check against AndroidAPS' log of actions it has performed.<br><br>
 
 You can see details of item, by clicking/pressing on them.<br><br>
 
-Items can be filtered by Group, default option, displays all item, except Unknown items.
+Items can be filtered by Group. The default option is to display all items except Unknown items. Unknown items just have an ID and bytestring of their contents.
 
 <br><br>
 
