@@ -70,6 +70,7 @@ Please read this entire documentation page before you start testing. Note that i
 			
 		<li><a href="#mobi-details">Details how driver and mobi work</a></li>
 			<ol>
+				<li><a href="#mobi-details-limitations">Mobi-specific limitations <b>(Please Read)</b></a></li>
 				<li><a href="#mobi-details-startup-sequence">Startup sequence</a></li>
 				<li><a href="#mobi-details-pump-notifications">(Pump) Notifications</a></li>
 				<li><a href="#mobi-details-events">Events</a></li>
@@ -323,9 +324,34 @@ The pairing wizard should guide you through the necessary steps. See the tips li
 
 <h2 id="mobi-details">Details how driver and mobi work</h2>
 
+
+<h3 id="mobi-details-limitations">Mobi-specific limitations <b>(Please Read)</b></h3>
+
+<p>
+	A current limitation which testers of Mobi in AndroidAPS should be aware of is that <b>we are unable to make the pump fully silent while DIY looping</b>.
+	The pump itself will either beep -- at low, medium, or high volume -- or vibrate depending on your settings when AAPS sends a Temp Basal or Bolus to the pump.
+	<b>At this time, there is no known technical workaround to this problem.</b>
+</p>
+
+<p>
+	Regardless of whether or not you use Control-IQ on a Mobi (Tandem's native closed loop solution), the pump still beeps or vibrates when you, the user, set a temp rate or bolus on the pump from your phone.
+	But the Control-IQ algorithm itself lives on the pump and not your phone, and thus makes no sounds/vibrations at all when it performs basal adjustments and boluses.
+	AndroidAPS (and, in the future, potential Loop/Trio iOS integrations for Mobi) experiences the problem of making sounds/vibrations because as far as the pump is concerned, it's a human making all of the temp basal and bolus actions, not the in built algorithm.
+</p>
+
+<p>
+	We are hopeful that in the future, Tandem will allow more fine-grained control of the sound and vibrate settings on the pump which allow DIY looping to function silently.
+	However we are at the mercy of Tandem releasing a firmware update for the Mobi which allows a "silent mode" or turning the volume/vibration intensity even lower or off entirely.
+	There is no software solution to this problem at this time -- thank you for your understanding.
+</p>
+
+<p>
+	In the meantime, use either ControlX2 or the official Mobi app to control the "General" sound setting which will control the sound or vibrate used for temp basals and boluses.
+</p>
+
 <h3 id="mobi-details-startup-sequence">Startup sequence</h3>
 
-Everytime you run AAPS and the driver connects to the pump, there will be a sequence of commands executed which will retrive initial data and see if your pump is running ok and what state it is in. This process can take up to 2 minutes, depending on how fast your phone is, how good the BT connection is and if this is one of your first times running the driver. On each start the driver also checks if you have enabled Control-IQ (aka, the built in partial-closed-loop algorithm on the Tandem Mobi) and disables it as a safety measure. <b>For safety reasons Control-IQ and AAPS should not run at the same time. To switch back to Control-IQ, disable AndroidAPS and use the ControlX2 app to re-enable Control-IQ.</b>
+Every time you run AAPS and the driver connects to the pump, there will be a sequence of commands executed which will retrive initial data and see if your pump is running ok and what state it is in. This process can take up to 2 minutes, depending on how fast your phone is, how good the BT connection is and if this is one of your first times running the driver. On each start the driver also checks if you have enabled Control-IQ (aka, the built in partial-closed-loop algorithm on the Tandem Mobi) and disables it as a safety measure. <b>For safety reasons Control-IQ and AAPS should not run at the same time. To switch back to Control-IQ, disable AndroidAPS and use the ControlX2 app to re-enable Control-IQ.</b>
 <br>
 <br>
 List of commands that will be executed is:
