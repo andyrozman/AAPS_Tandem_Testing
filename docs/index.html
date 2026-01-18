@@ -16,7 +16,7 @@
 
 
 
-<h1 id="t-mobi-documentation">Tandem t:mobi (documentation)</h1>
+<h1 id="t-mobi-documentation">Tandem Mobi (documentation)</h1>
 
 <b>Version:</b>&nbsp;&nbsp; 0.7.x (Phase 4)<br>
 <b>Last updated:</b>&nbsp;&nbsp;January 14, 2026<br><br>
@@ -271,8 +271,8 @@ The pairing wizard should guide you through the necessary steps. See the tips li
 <tr>
 	<td>
 		
-		<img src="./pics/pref_v2_1.jpg" height="480" width="216" alt="Settings 1"> &nbsp;
-		<img src="./pics/pref_v2_2.jpg" height="480" width="216" alt="Settings 2">
+		<img src="./pics/pref_v2_up.jpg" height="380" width="216" alt="Settings 1"> &nbsp;
+		<img src="./pics/pref_v2_down.jpg" height="280" width="216" alt="Settings 2">
 		
 		</td>
 
@@ -286,7 +286,7 @@ The pairing wizard should guide you through the necessary steps. See the tips li
 		
 		<b>Max Basal on Pump:</b>&nbsp;&nbsp;This sets the max amount of basal insulin the pump can be configured to deliver in a hour. Valid values are 1u/hr to 15u/hr. You can go with the max value here, but if you want to limit this the formula is to look at your highest hourly basal value multiplied by 2.5 (250% is the max TBR possible supported on Mobi pumps. For instance, if your base basal rate is 1u/hr, the pump will NOT allow temp rates above 2.5u/hr).<br><br>
 		
-		<b>Display driver version:</b>&nbsp;&nbsp;Displays the driver version on t:MOBI tab (in Section 1, 4th line if enabled - see Overview for more info)<br><br>
+		<b>Display driver version:</b>&nbsp;&nbsp;Displays the driver version on Mobi tab (in Section 1, 4th line if enabled - see Overview for more info)<br><br>
 		
 		<b>Which Pump Events to Show?</b>&nbsp;&nbsp;We can either show all events, or just that ones that are AAPS Relevant. Note that some Tandem reported events are of minimal relevance to AAPS.<br><br>
 		
@@ -423,14 +423,9 @@ Refresh button triggers a forced refresh of all the data (it would be the same d
 	</td>
 
 	<td> 
-		<p>
+		<blockquote><blockquote>
 			This is the main window from where you can access all 3 options. Events and Pump History are of informational value only, while Notifications can and must be confirmed/dismissed by the user.
-
-			</p>
-
-			<p>
-			Each option will be explained in detail in following sections (and some background is also provided in some other sections, as it will be indicated in each of separate screen):
-			</p>
+			<br>Each option will be explained in detail in following sections (and some background is also provided in some other sections, as it will be indicated in each of separate screen):<br>
 			<ul>
 			<li>Notifications</li>
 			<li>Events</li>
@@ -462,21 +457,16 @@ Refresh button triggers a forced refresh of all the data (it would be the same d
 	</td>
 
 	<td> 
-		<p>
-			Notifications are sent by the pump and are either an Alert, Alarm, or Malfunction. <a href="#mobi-details-pump-notifications">See the Pump Notifications section for more information on notifications.</a>
-		</p>	
+		<blockquote><blockquote>
 
-		<p>
-			The Mobi will regularly inform you when a notification is present that has not been acknowledged, with beeps/vibrates/LED lights on the device itself. To acknowledge a notification, click on the notification to dismiss it. The page should reload afterwards.
-		</p>
+	
+		This screen shows all current notifications, currently in pump. Most of alerts/alarms come with Malfuctions. Some of malfuctions will be filtered. We are slowly adding filtering for all known malfunctions. <br><br>
+		If you press on notification, that notification is confirmed and will disapper... <br><br>
+		Malfunctions can't be confirmed, but they will disappear when alert/alarm is confirmed.<br><br>
+		You can find more information about notifications in <a href="#mobi-details-pump-notifications">Pump Notifications</a> section.
+		
 
-		<p>
-			When dismissing one notification, other active notifications may also be dismissed at the same time. For instance, the pump sends two distinct "Insulin Suspended" alarms -- one which is sent after 15 minutes of insulin delivery being suspended, and another which is sent when the first notification hasn't been acknowledged for some period of time. Dismissing one notification will dismiss the other -- so the page will reload after clicking on one of the two notifications and both will disappear. This is expected behavior (the duplicate notifications may be merged together in the UI in the future).
-		</p>
-
-		<p>
-			Note that <b>Malfunction</b> notifications may appear when an actual malfunction has not occurred. Under the hood, malfunctions and alarms are related, and the Tandem Mobi app effectively considers unrecognized alarms as being critical malfunctions (which it then notifies you to contact tech support to resolve). We are using heuristics to mimick how the official Tandem Mobi app determines whether an alarm is of a known type, or is a legitimate malfunction requiring support, but it is not 100% perfect, so if you see a Malfunction listed reach out in the AAPS Discord channel for the Tandem driver if you see a malfunction listed. If you do call Tandem tech support, don't tell them you are using AndroidAPS, ControlX2, or DIY apps since none of these are officially supported by Tandem.
-		</p>
+		</blockquote></blockquote>		
 	</td>
 
 
@@ -501,9 +491,13 @@ Refresh button triggers a forced refresh of all the data (it would be the same d
 
 	<td> 
 
-		<p>
-			The Events view shows a history of "events" which are small bits of information sent by the pump to the phone which denote that something on the pump's status has changed. When events are sent, there is no additional information about what has changed besides the type of data which has changed -- <a href="https://jwoglom.github.io/pumpX2/javadoc/messages/com/jwoglom/pumpx2/pump/messages/response/qualifyingEvent/QualifyingEvent.html#enum-constant-summary">it is a simple enum type (QualifyingEvent in the PumpX2 libraries)</a>. To look for more granular information, see the History tab.
-		</p>
+	
+
+		Pump Events are displayed here. When something happens in pump, certain events are sent. Event functionality is not fully working yet in library, which is the main reason that at the moment, driver is not relying on them. We still have scheduled calls to pump, to read status, just so that we don't loose anything.<br><br>
+		Events here are only of informational value and just display event keyword.<br>
+		At the moment there is no plan to extend this functionality.<br>
+
+		</blockquote></blockquote>		
 	</td>
 
 
@@ -511,6 +505,8 @@ Refresh button triggers a forced refresh of all the data (it would be the same d
 
 
 </table>
+
+<br><br>
 
 
 <h4 id="data-history">History</h4>
@@ -531,13 +527,13 @@ Refresh button triggers a forced refresh of all the data (it would be the same d
 
 Pump history is retrieved every 5 minutes, together with the Pump Status check. History is always read from latest to oldest. We retrieve at max 5 chunks of history data, each containing 200 records. Once we reach 1.5 months, we don't retrive any more historical data. <br><br>
 
-So in the beginning, history will reada lot of items, but afterwards, only new items will be read. Historical data is also cleaned from the database, so we always have just last 1.5 months, so the database won't grow needlessly.<br><br>
+So in the beginning, history will read lot of items, but afterwards, only new items will be read. Historical data is also cleaned from the database, so we always have just last 1.5 months, so the database won't grow needlessly.<br><br>
 
-History is not parsed, we just display whatever history fields which are recognized by the PumpX2 library. In some cases we do some minor parsing of certain recognizable fields, but not many. This might be extended in future, but history is of information value only and is not used by driver. It can, however, be used as part of validation testing as it is a durable log stored by the pump of operations performed which we can check against AndroidAPS' log of actions it has performed.<br><br>
+History is not parsed, we just display whatever history fields we have recognized by pumpX2 library. In some cases we do some minor parsing of certain recognizable fields, but not many. This might be extended in future, but history is of information value only and is not used by driver. It can, however, be used as part of validation testing as it is a durable log stored by the pump of operations performed which we can check against AndroidAPS' log of actions it has performed.<br><br>
 
 You can see details of item, by clicking/pressing on them.<br><br>
 
-Items can be filtered by Group. The default option is to display all items except Unknown items. Unknown items just have an ID and bytestring of their contents.
+Items can be filtered by Group, default option, displays all item, except Unknown items.
 
 <br><br>
 
@@ -664,20 +660,6 @@ To see a list of known History Logs, <a href="https://jwoglom.github.io/pumpX2/j
 
 
 
-<pre>
-
-TODO: - New configuration options
-      - UI - Data: - Events, History, Notitfication
-      - UI - PumpInfo, Canula options ...
-
-
-
-</pre>
-
-
-
-
-
 
 
 
@@ -719,7 +701,7 @@ This section will be extended when we find areas that need troubleshooting.
 
 <br>
 <br>
-Copyright (c) 2025 - AAPS, developed by AndyRozman (AAPS) and JWoglom (pumpX2 library and little AAPS)
+Copyright (c) 2025-26 - AAPS, developed by AndyRozman (AAPS) and JWoglom (pumpX2 library and little AAPS)
 
 
 </body>
