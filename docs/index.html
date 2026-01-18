@@ -19,7 +19,7 @@
 <h1 id="t-mobi-documentation">Tandem Mobi (documentation)</h1>
 
 <b>Version:</b>&nbsp;&nbsp; 0.7.x (Phase 4)<br>
-<b>Last updated:</b>&nbsp;&nbsp;January 14, 2026<br><br>
+<b>Last updated:</b>&nbsp;&nbsp;January 18, 2026<br><br>
 
 
 <hr>
@@ -28,7 +28,7 @@
 
 While this implementation was already put into Beta phase, there are still a few things that need to be done. All things that are missing are listed as feature requests and all bugs found will also appear there. You can find everything on <a href="https://github.com/andyrozman/AAPS_Tandem_Testing/issues">the AAPS_Tandem_testing repo's issues page</a>.<br><br>
 
-If you find anything that doesn't work, please check there first. If you can't find it, post a message in our discord group, so that we can discuss if this is a bug or just how it works. If we discover something new, we will add it as bug. <br><br>
+If you find anything that doesn't work, please check there first. If you can't find it, post a message in our testing discord group <b>#t_mobi-test</b>, so that we can discuss if this is a bug or just how implementation works. If we discover something new, we will add it as bug. <br><br>
 
 The current plan is to implement as much missing functionality as possible in January, while you are all testing what we currently have.<br><br>
 
@@ -36,7 +36,7 @@ Please read this entire documentation page before you start testing. Note that i
 
 
 <br><br>
-<b>This documentation is not yet complete. Missing documentation sections will be marked as <u>TODO</u>.</b>
+<b>This documentation is mostly complete. There might be some sections missing (let us know if you think so), and any new functionalities are of course not included.</b>
 <br><br>
 
 
@@ -225,7 +225,11 @@ The pairing wizard should guide you through the necessary steps. See the tips li
 	<td>
 		<img src="./pics/overview_v2.jpg" height="480" width="216" alt="Overview">
 	</td>
-	<td>Once you have Mobi configured, the "Tandem Mobi" tab becomes available, displaying all important information. Information is divided in 6 different sections.<br><br>
+	<td>
+		
+		<blockquote><blockquote>
+		
+		Once you have Mobi configured, the "Tandem Mobi" tab becomes available, displaying all important information. Information is divided in 6 different sections.<br><br>
 	
 	<b>Section 1:</b> Information about your pump: Firmware, Serial Number and BT address. If you have configured display of the driver version, then the version of the AAPS Mobi driver will also be displayed (when reporting bugs in the driver, this information needs to be in the report. It helps us pinpoint the problem, and we can also determine if this error was already fixed). <br><br>
 	
@@ -491,7 +495,7 @@ Refresh button triggers a forced refresh of all the data (it would be the same d
 
 	<td> 
 
-	
+		<blockquote><blockquote>
 
 		Pump Events are displayed here. When something happens in pump, certain events are sent. Event functionality is not fully working yet in library, which is the main reason that at the moment, driver is not relying on them. We still have scheduled calls to pump, to read status, just so that we don't loose anything.<br><br>
 		Events here are only of informational value and just display event keyword.<br>
@@ -617,6 +621,10 @@ To see a list of known History Logs, <a href="https://jwoglom.github.io/pumpX2/j
 <tr>
 	<td><img src="./pics/start_pump.png", height="480", width="216", alt="Starting Pump"></td>
 	<td><img src="./pics/cartridge_actions.png", height="481", width="216", alt="Cartridge Actions"></td>
+	<td><img src="./pics/site_reminder.jpg", height="481", width="216", alt="Site Reminder"></td>
+
+	
+	
 	<td>
 		<blockquote><blockquote>
 		<b>Changing Cartridge</b>
@@ -639,7 +647,10 @@ To see a list of known History Logs, <a href="https://jwoglom.github.io/pumpX2/j
 		<li>Enter the amount of units and press "Fill Cannula"</li>
 		<br>
 		<b>Site Reminder</b>
-		<li>Coming soon... TODO</li>
+		<li>Site reminders are not tied to Pump's. This are internal AAPS Site reminders</li>
+		<li>You can select one of presets and then press "Apply Preset" and dates will change</li>
+		<li>If your date/time color is blue this means that you need to press "Save" or else your changes will be lost.</li>
+		<li>You can also change date/time manually or you can use presets and manual together (just apply preset, and then change date/time).</li>
 		
 
 		</blockquote></blockquote>
@@ -649,20 +660,7 @@ To see a list of known History Logs, <a href="https://jwoglom.github.io/pumpX2/j
 </table>
 
 
-
-<b>TODO</b><br>
-
-
-
-
 <br><br>
-
-
-
-
-
-
-
 
 
 <hr>
@@ -679,6 +677,7 @@ To see a list of known History Logs, <a href="https://jwoglom.github.io/pumpX2/j
 	<li>TZ and Daylightsaving time change (not tested)</li>
 	<li>Qualifying Events: On certain actions, pump sends so called QEs. You can see events in Data -> Events.</li>
 	<li>Alerts and Alarms: We read this on every pump status update (every 5 minutes) and display it in Data -> Notifications.</li>
+	<li>Pairing in AAPS or using shared connection with pumpX2</li>	
 
 
 </ul>
