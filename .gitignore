@@ -31,3 +31,6 @@ node_modules/
 package-lock.json
 package.json
 build-toc.mjs
+
+# Sphinx output
+_build/
