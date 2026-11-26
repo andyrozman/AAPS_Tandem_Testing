@@ -24,8 +24,8 @@ author = "Andy Rozman (AAPS driver) and James Woglom (PumpX2 library)"
 copyright = f"2025-{date.today():%y}, {author}"
 
 # Driver version this documentation describes. Bump with each tagged release.
-version = "0.9.x"
-release = "0.9.x (Phase 5 / Beta)"
+version = "0.10.1.x"
+release = "v0.10.1.1 (24.11.2026 - dev 4.0.1-dev-a (24.11.2026) (Phase 5 / Beta)"
 
 # -- General configuration ---------------------------------------------------
 
